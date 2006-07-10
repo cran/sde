@@ -134,7 +134,7 @@ SEXP sde_sim_euler(SEXP x0, SEXP t0, SEXP delta, SEXP N,
   
   GetRNGstate();
   if(CORR==TRUE){
-   for(i=1; i<= n+1; i++){
+   for(i=1; i< n+1; i++){
     Z = rnorm(0,sdt);
     T2 = T1 + DELTA;
 	tmp = REAL(X)[i-1];    
@@ -148,7 +148,7 @@ SEXP sde_sim_euler(SEXP x0, SEXP t0, SEXP delta, SEXP N,
 	T1 = T2;  
    }   
   } else {
-    for(i=1; i<= n+1; i++){
+    for(i=1; i< n+1; i++){
      Z = rnorm(0,sdt);  
 	 T1 = T1 + DELTA; 
 	 tmp = REAL(X)[i-1]; 
@@ -195,7 +195,7 @@ SEXP sde_sim_milstein(SEXP x0, SEXP t0, SEXP delta, SEXP N,
   sdt = sqrt(DELTA);
 
   GetRNGstate();
-  for(i=1; i<= n+1; i++){
+  for(i=1; i< n+1; i++){
    Z = rnorm(0,sdt);
    T = T + DELTA;    
    tmp = REAL(X)[i-1];
@@ -246,7 +246,7 @@ SEXP sde_sim_milstein2(SEXP x0, SEXP t0, SEXP delta, SEXP N,
   sdt = sqrt(DELTA);
 
   GetRNGstate();
-  for(i=1; i<= n+1; i++){
+  for(i=1; i< n+1; i++){
    Z = rnorm(0,sdt);
    T = T + DELTA;    
    tmp = REAL(X)[i-1];
@@ -311,7 +311,7 @@ SEXP sde_sim_KPS(SEXP x0, SEXP t0, SEXP delta, SEXP N,
   REAL(X)[0] = *NUMERIC_POINTER(x0);
   sdt = sqrt(DELTA);
 
-  for(i=1; i<= n+1; i++){
+  for(i=1; i< n+1; i++){
     T = T + DELTA;    
     tmp = REAL(X)[i-1];
    
