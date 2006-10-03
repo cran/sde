@@ -24,9 +24,9 @@ rsCIR(n=1, theta)
 \details{
 This function returns quantities related to the stationary law
 of the process solution of
-\code{dX_t = theta[1]*(theta[2] - Xt)*dt + theta[3]*sqrt(X_t)*dWt}.
+\code{dX_t = (theta[1] - theta[2]*Xt)*dt + theta[3]*sqrt(X_t)*dWt}.
 
-Constraints: \code{2*theta[1]*theta[2]/theta[3]^2, theta's>0}.
+Constraints: \code{2*theta[1] > theta[3]^2, theta's>0}.
 }
 \value{
   \item{x}{a numeric vector}
@@ -39,7 +39,7 @@ for Stochastic Differential Equation}, Springer, NY.
 }
 \seealso{\code{\link{rsCIR}}}
 \examples{
-rsCIR(n=1, theta=c(2,2,1))
+rsCIR(n=1, theta=c(6,2,1))
 }
 \keyword{datagen}
 \keyword{ts}

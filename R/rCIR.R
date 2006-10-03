@@ -1,3 +1,5 @@
+# Parametrization dXt = (O1 - O2*Xt)dt + O3*Xt^0.5 dWt
+
 expBes <- function(x,nu){
 	mu = 4*nu^2
 	A1 <-  1
@@ -11,34 +13,34 @@ expBes <- function(x,nu){
 }
 
 checkCIR <- function(theta,x0){
-    if(2*theta[1]*theta[2]/theta[3]^2<0)
-    stop("the process is not stationary")
+    if(2*theta[1]<=theta[3]^2)
+    warning("the process is not stationary")
    if(any(theta<0))
     stop("parameters must be positive")
    if(any(x0<0))
-    stop("process is always positive")
+    stop("wrong `x0', the process is always non-negative")
 }
 
-setCIR <- function(t, x0, theta){
-   c <- 2*theta[1]/((1-exp(-theta[1]*t))*theta[3]^2)
-   ncp <- 2*c*x0*exp(-theta[1]*t)
-   df <- 4*theta[1]*theta[2]/theta[3]^2
+setCIR <- function(Dt, x0, theta){
+   c <- 2*theta[2]/((1-exp(-theta[2]*Dt))*theta[3]^2)
+   ncp <- 2*c*x0*exp(-theta[2]*Dt)
+   df <- 4*theta[1]/theta[3]^2
    return(list(df=df,ncp=ncp,c=c))
 }
 
-rcCIR <- function(n=1, t, x0, theta){
+rcCIR <- function(n=1, Dt, x0, theta){
    checkCIR(theta, x0)
-   P <- setCIR(t, x0, theta)
+   P <- setCIR(Dt, x0, theta)
    rchisq(n, df=P$df, ncp=P$ncp)/(2*P$c)
 }
 
 
-dcCIR <- function(x, t, x0, theta, log = FALSE){
+dcCIR <- function(x, Dt, x0, theta, log = FALSE){
    checkCIR(theta, x0)
-   P <- setCIR(t, x0, theta)
-   u <- P$c*x0*exp(-theta[1]*t)
+   P <- setCIR(Dt, x0, theta)
+   u <- P$c*x0*exp(-theta[2]*Dt)
    v <- P$c*x
-   q <- 2*theta[1]*theta[2]/theta[3]^2 -1
+   q <- 2*theta[1]/theta[3]^2 -1
    lik <- (log(P$c) - (u+v) + q/2 * log(v/u) + log(expBes( 2*sqrt(u*v), q)) 
     +  2*sqrt(u*v))
   if(!log)
@@ -47,15 +49,15 @@ dcCIR <- function(x, t, x0, theta, log = FALSE){
 }
 
 
-pcCIR <- function(x, t, x0, theta, lower.tail = TRUE, log.p = FALSE){ 
+pcCIR <- function(x, Dt, x0, theta, lower.tail = TRUE, log.p = FALSE){ 
    checkCIR(theta, x0)
-   P <- setCIR(t, x0, theta)
+   P <- setCIR(Dt, x0, theta)
    pchisq(x*2*P$c, df=P$df, ncp=P$ncp, lower.tail = lower.tail, log.p = log.p)
 }
 
-qcCIR <- function(p, t, x0, theta, lower.tail = TRUE, log.p = FALSE){ 
+qcCIR <- function(p, Dt, x0, theta, lower.tail = TRUE, log.p = FALSE){ 
    checkCIR(theta, x0)
-   P <- setCIR(t, x0, theta)
+   P <- setCIR(Dt, x0, theta)
    qchisq(p, df=P$df, ncp=P$ncp, lower.tail = lower.tail, log.p = log.p)/(2*P$c) 
 }
 
@@ -68,20 +70,20 @@ rsCIR <- function(n=1, theta){
 
 dsCIR <- function(x, theta, log = FALSE){
   checkCIR(theta, 1)
-  dgamma(x, shape = 2*theta[1]*theta[2]/theta[3]^2, 
-   scale = theta[3]^2/(2*theta[1]), log=log)
+  dgamma(x, shape = 2*theta[1]/theta[3]^2, 
+   scale = theta[3]^2/(2*theta[2]), log=log)
 }
 
 psCIR <- function(x, theta, lower.tail = TRUE, log.p = FALSE){ 
   checkCIR(theta, 1)
-  pgamma(x, shape = 2*theta[1]*theta[2]/theta[3]^2, 
-   scale = theta[3]^2/(2*theta[1]), 
+  pgamma(x, shape = 2*theta[1]/theta[3]^2, 
+   scale =  theta[3]^2/(2*theta[2]), 
 	lower.tail = lower.tail, log.p = log.p)
 }
 
 qsCIR <- function(p, theta, lower.tail = TRUE, log.p = FALSE){ 
   checkCIR(theta, 1)
-  qgamma(p, shape = 2*theta[1]*theta[2]/theta[3]^2, 
-   scale = theta[3]^2/(2*theta[1]), 
+  qgamma(p, shape = 2*theta[1]/theta[3]^2, 
+   scale =  theta[3]^2/(2*theta[2]), 
 	lower.tail = lower.tail, log.p = log.p) 
 }

@@ -1,5 +1,4 @@
 export(sde.sim)
-export(sde.sim.ea)
 # Ornstein-Uhlenbeck
 export(rcOU)
 export(dcOU)
@@ -14,10 +13,6 @@ export(rcBS)
 export(dcBS)
 export(pcBS)
 export(qcBS)
-export(rsBS)
-export(dsBS)
-export(psBS)
-export(qsBS)
 # Cox-Ingersoll-Ross
 export(rcCIR)
 export(dcCIR)
@@ -27,4 +22,16 @@ export(rsCIR)
 export(dsCIR)
 export(psCIR)
 export(qsCIR)
+# Conditional density approximations
+export(dcEuler)
+export(dcElerian)
+export(dcKessler)
+export(dcOzaki)
+export(dcShoji)
+# Brownian motion related
+export(BM)
+export(GBM)
+export(BBridge)
+
+
 

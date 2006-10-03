@@ -6,19 +6,19 @@
 \title{Conditional law of the Cox-Ingersoll-Ross process}
 \description{
 Density, distribution function, quantile function and 
-random generation for the conditional law Xt|X0=x0 of the Cox-Ingersoll-Ross
+random generation for the conditional law Xt+Dt|Xt=x0 of the Cox-Ingersoll-Ross
  process}
 \usage{
-dcCIR(x, t, x0, theta, log = FALSE)
-pcCIR(x, t, x0, theta, lower.tail = TRUE, log.p = FALSE) 
-qcCIR(p, t, x0, theta, lower.tail = TRUE, log.p = FALSE)
-rcCIR(n=1, t, x0, theta)
+dcCIR(x, Dt, x0, theta, log = FALSE)
+pcCIR(x, Dt, x0, theta, lower.tail = TRUE, log.p = FALSE) 
+qcCIR(p, Dt, x0, theta, lower.tail = TRUE, log.p = FALSE)
+rcCIR(n=1, Dt, x0, theta)
 }
 \arguments{
   \item{x}{vector of quantiles.}
   \item{p}{vector of probabilities.}
-  \item{t}{lag or time}
-  \item{x0}{the value of the process at time \code{t=0}. See details.}
+  \item{Dt}{lag or time}
+  \item{x0}{the value of the process at time \code{t}. See details.}
   \item{theta}{parameter of the Ornstein-Uhlenbeck process. See details.}
   \item{n}{number of random numbers to generate from the conditional distribution.}
   \item{log, log.p}{logical; if TRUE, probabilities p are given as log(p).}
@@ -28,9 +28,9 @@ rcCIR(n=1, t, x0, theta)
 \details{
 This function returns quantities related to the conditional law
 of the process solution of
-\code{dX_t = theta[1]*(theta[2] - Xt)*dt + theta[3]*sqrt(X_t)*dWt}.
+\code{dX_t = (theta[1]-theta[2]*Xt)*dt + theta[3]*sqrt(X_t)*dWt}.
 
-Constraints: \code{2*theta[1]*theta[2]/theta[3]^2, theta's>0}.
+Constraints: \code{2*theta[1]> theta[3]^2, theta's>0}.
 }
 \value{
   \item{x}{a numeric vector}
@@ -43,7 +43,7 @@ for Stochastic Differential Equation}, Springer, NY.
 }
 \seealso{\code{\link{rsCIR}}}
 \examples{
-rcCIR(n=1, t=0.1, x0=1, theta=c(2,3,2))
+rcCIR(n=1, Dt=0.1, x0=1, theta=c(6,2,2))
 }
 \keyword{datagen}
 \keyword{ts}

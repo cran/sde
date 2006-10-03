@@ -25,11 +25,11 @@ rsOU(n=1, theta)
 \details{
 This function returns quantities related to the stationary law
 of the process solution of
-\code{dX_t = theta[1]*(theta[2] - Xt)*dt + theta[3]*dWt}.
+\code{dX_t = (theta[1]-theta[2]*Xt)*dt + theta[3]*dWt}.
 
-Contraints: \code{theta[1]>0, theta[3]>0}.
+Contraints: \code{theta[2]>0, theta[3]>0}.
 
-Please note that the process is stationary only if \code{theta[1]>0}.
+Please note that the process is stationary only if \code{theta[2]>0}.
 }
 \value{
   \item{x}{a numeric vector}
@@ -45,7 +45,7 @@ for Stochastic Differential Equation, Springer, NY.
 }
 \seealso{\code{\link{rcOU}}}
 \examples{
-rsOU(n=1, theta=c(2,0,1))
+rsOU(n=1, theta=c(0,2,1))
 }
 \keyword{datagen}
 \keyword{ts}

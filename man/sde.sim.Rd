@@ -6,10 +6,12 @@ Generic interface to different methods of simulations of solutions to stochastic
 differential equations.
 }
 \usage{
-sde.sim(t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma, drift.x, 
-sigma.x, drift.xx, sigma.xx, drift.t, method = c("euler", "milstein", "KPS", 
-"milstein2","cdist", "ozaki", "shoji"), alpha = 0.5, eta = 0.5, pred.corr = T,
-rcdist=NULL, theta=NULL, model = c("CIR", "VAS", "OU", "BS"))
+sde.sim(t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma, 
+    drift.x, sigma.x, drift.xx, sigma.xx, drift.t, method = c("euler", 
+        "milstein", "KPS", "milstein2", "cdist","ozaki","shoji","EA"), 
+		alpha = 0.5, eta = 0.5, pred.corr = T, rcdist = NULL, theta = NULL,
+	     model = c("CIR", "VAS", "OU", "BS"),
+	    k1, k2, phi, max.psi = 1000, rh, A)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +34,12 @@ rcdist=NULL, theta=NULL, model = c("CIR", "VAS", "OU", "BS"))
   \item{rcdist}{a function which is a random number generator from the conditional distribution of the process. See details.}
   \item{theta}{vector of parameters for \code{cdist}. See details.}
   \item{model}{model from which to simulate. See details.}
+  \item{k1}{lower bound for \code{psi(x) = 0.5*drift(x)^2 + 0.5*drift.x(x)}. See details.}
+  \item{k2}{upper bound for \code{psi(x) = 0.5*drift(x)^2 + 0.5*drift.x(x)}. See details.}
+  \item{phi}{the function \code{psi(x) - k1}}
+  \item{max.psi}{upper value of the support of \code{psi} to search for its maximum}
+  \item{rh}{the rejection function. Seed details.}
+  \item{A}{\code{A(x)} is the integral of the \code{drift} between \code{0} and \code{x}}
 }
 \details{
 The function returns a \code{ts} object of length \code{N+1}, i.e. \code{X0} and
@@ -60,6 +68,9 @@ known conditional distribution. The random generator \code{rcdist} must be a
 function of \code{n}: the number of random numbers, \code{dt}: the time lag, 
 \code{x}: the value of the process at time \code{t} - \code{dt} and the
 vector of parameters \code{theta}.
+
+For exact algorithm method \code{EA}: if missing \code{k1} and \code{k2} as well 
+as \code{A}, \code{rh} and \code{phi} are calculated numerically by the function.
 }
 \value{
   \item{x}{returns and invisible \code{ts} object}
@@ -71,37 +82,37 @@ for Stochastic Differential Equation, Springer, NY.
 }
 \examples{
 # Ornstein-Uhlenbeck process
-# beta = 5
-# sigma = 3.5
 set.seed(123)
 d <- expression(-5 * x)
 s <- expression(3.5) 
 sde.sim(X0=10,drift=d, sigma=s) -> X
 plot(X,main="Ornstein-Uhlenbeck")
 
-# Cox-Ingersoll-Ross (CIR-1)
-# a = 3
-# theta = 2
-# lambda = 5
+# Cox-Ingersoll-Ross process
+# dXt = (6-3*Xt)*dt + 2*sqrt(Xt)*dWt
 set.seed(123)
-d <- expression( 3*(2-x) ) 
-s <- expression( 5*sqrt(x) ) 
+d <- expression( 6-3*x ) 
+s <- expression( 2*sqrt(x) ) 
 sde.sim(X0=10,drift=d, sigma=s) -> X
 plot(X,main="Cox-Ingersoll-Ross")
 
-# Cox-Ingersoll-Ross using the conditional distribution
-rCIR <- function(n=1, dt, x, theta){
-   cc <- (2*theta[1])/((1-exp(-theta[1]*dt))*theta[3]^2)
-   df <- 4*theta[1]*theta[2]/theta[3]^2
-   ncp <- 2*cc*x*exp(-theta[1]*dt)
-   rchisq(n, df=df, ncp=ncp)/(2*cc)
-}
+# Cox-Ingersoll-Ross using the conditional distribution "rcCIR"
 
-sde.sim(X0=10, theta=c(3, 2, 5), rcdist=rCIR, method="cdist") -> X
+set.seed(123)
+sde.sim(X0=10, theta=c(6, 3, 2), rcdist=rcCIR, method="cdist") -> X
 plot(X, main="Cox-Ingersoll-Ross")
 
-sde.sim(X0=10, theta=c(3, 2, 5), model="CIR") -> X
+set.seed(123)
+sde.sim(X0=10, theta=c(6, 3, 2), model="CIR") -> X
 plot(X, main="Cox-Ingersoll-Ross")
+
+# Exact simulation
+set.seed(123)
+d <- expression(sin(x))
+d.x <- expression(cos(x)) 
+A <- function(x) 1-cos(x)
+sde.sim(method="EA", delta=1/20, X0=0, N=500, drift=d, drift.x = d.x, A=A) -> X
+plot(X, main="Periodic drift")
 }
 \keyword{datagen}
 \keyword{ts}

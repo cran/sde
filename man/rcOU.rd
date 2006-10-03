@@ -1,24 +1,24 @@
-\name{rcBS}
-\alias{rcBS}
-\alias{dcBS}
-\alias{pcBS}
-\alias{qcBS}
-\title{Black-Scholes-Merton or Geometric Brownian Motion process conditional law}
+\name{rcOU}
+\alias{rcOU}
+\alias{dcOU}
+\alias{pcOU}
+\alias{qcOU}
+\title{Ornstein-Uhlenbeck or Vasicek process conditional law}
 \description{Density, distribution function, quantile function and 
-random generation for the conditional law Xt|X0=x0 of the Black-Scholes-Merton process
-also known as Geometric Brownian Motion process}
+random generation for the conditional law Xt+Dt|Xt=x0 of the Ornstein-Uhlenbeck process
+also known as Vasicek process}
 \usage{
-dcBS(x, t, x0, theta, log = FALSE)
-pcBS(x, t, x0, theta, lower.tail = TRUE, log.p = FALSE) 
-qcBS(p, t, x0, theta, lower.tail = TRUE, log.p = FALSE)
-rcBS(n=1, t, x0, theta)
+dcOU(x, Dt, x0, theta, log = FALSE)
+pcOU(x, Dt, x0, theta, lower.tail = TRUE, log.p = FALSE) 
+qcOU(p, Dt, x0, theta, lower.tail = TRUE, log.p = FALSE)
+rcOU(n=1, Dt, x0, theta)
 }
 \arguments{
   \item{x}{vector of quantiles.}
   \item{p}{vector of probabilities.}
-  \item{t}{lag or time}
-  \item{x0}{the value of the process at time \code{t=0}. See details.}
-  \item{theta}{parameter of the Black-Scholes-Merton process. See details.}
+  \item{Dt}{lag or time}
+  \item{x0}{the value of the process at time \code{t}. See details.}
+  \item{theta}{parameter of the Ornstein-Uhlenbeck process. See details.}
   \item{n}{number of random numbers to generate from the conditional distribution.}
   \item{log, log.p}{logical; if TRUE, probabilities p are given as log(p).}
   \item{lower.tail}{logical; if TRUE (default), probabilities are P[X <= x], 
@@ -27,27 +27,27 @@ rcBS(n=1, t, x0, theta)
 \details{
 This function returns quantities related to the conditional law
 of the process solution of
-\code{dX_t = theta[1]*Xt*dt + theta[2]*Xt*dWt}.
+\code{dX_t = (theta[1] - theta[2]*Xt)*dt + theta[3]*dWt}.
 
-Constraints: \code{theta[3]>0}.
+Constraints: \code{theta[2]>0, theta[3]>0}.
 
+Please note that the process is stationary only if \code{theta[2]>0}.
 }
 \value{
   \item{x}{a numeric vector}
 }
-\references{ Black, F.,  Scholes, M.S. (1973) The pricing of options 
-and corporate liabilities, \emph{Journal of Political Economy}, 81, 637-654.
+\references{Uhlenbeck, G. E.,  Ornstein, L. S. (1930) On the theory of Brownian motion, 
+\emph{Phys. Rev.}, 36, 823-841.
 
-Merton, R. C. (1973) Theory of rational option pricing, 
-\emph{Bell Journal of Economics and Management Science}, 4(1), 141-183.
-}
+Vasicek, O. (1977) An Equilibrium Characterization of the Term 
+Structure, \emph{Journal of Financial Economics},  5, 177-188. }
 \author{Stefano Maria Iacus}
 \note{This package is a companion to the book \emph{Simulation and Inference
 for Stochastic Differential Equation}, Springer, NY.
 }
-\seealso{\code{\link{rsBS}}}
+\seealso{\code{\link{rsOU}}}
 \examples{
-rcBS(n=1, t=0.1, x0=1, theta=c(2,1))
+rcOU(n=1, Dt=0.1, x0=1, theta=c(0,2,1))
 }
 \keyword{datagen}
 \keyword{ts}
