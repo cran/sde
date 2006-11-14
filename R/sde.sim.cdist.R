@@ -1,10 +1,7 @@
 "sde.sim.cdist" <-
-function(X0, t0, Dt, N, rcdist=NULL, theta=NULL){
-   X <- numeric(N+1)
-   X[1] <- X0
-   for(i in 2:(N+1)){
-    X[i] <- rcdist(1, Dt, X[i-1], theta)
-   }
- X
+function(X0, t0, Dt, N, M, rcdist=NULL, theta=NULL){
+ cds <-function(t,x) rcdist(1,t,x,theta)
+ return( .Call("sde_sim_cdist",  X0, t0, Dt, as.integer(N), as.integer(M),
+  cds, .GlobalEnv, PACKAGE="sde") ) 
 }
 

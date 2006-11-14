@@ -1,0 +1,11 @@
+Changes from sde_1.8 to sde_1.9.4:
+----------------------------------
+
+1.  multiple independet trajectories can be simulated with sde.sim 
+	in all methods with the exclusion of EA
+
+2.  all methods are now implemented at C level with the exclusion
+	of the EA method
+
+3.  added changes.txt file
+

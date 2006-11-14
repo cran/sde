@@ -11,7 +11,7 @@ sde.sim(t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
         "milstein", "KPS", "milstein2", "cdist","ozaki","shoji","EA"), 
 		alpha = 0.5, eta = 0.5, pred.corr = T, rcdist = NULL, theta = NULL,
 	     model = c("CIR", "VAS", "OU", "BS"),
-	    k1, k2, phi, max.psi = 1000, rh, A)
+	    k1, k2, phi, max.psi = 1000, rh, A, M=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +19,7 @@ sde.sim(t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
   \item{T}{horizon of simulation}
   \item{X0}{initial value of the process}
   \item{N}{number of simulation steps}
+  \item{M}{number of trajectories}
   \item{delta}{time-step of the simulation}
   \item{drift}{drift coeffcient: a expression of two variables \code{t} and \code{x}}
   \item{sigma}{diffusion coeffcient: a expression of two variables \code{t} and \code{x}}
@@ -43,7 +44,12 @@ sde.sim(t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
 }
 \details{
 The function returns a \code{ts} object of length \code{N+1}, i.e. \code{X0} and
-the new \code{N} simulated values. If \code{delta} is not specified, then \code{delta = (T-t0)/N}.
+the new \code{N} simulated values if \code{M=1}.
+For \code{M>1} a \code{mts} (multi-dimensional \code{ts} object) is returned, which
+means that \code{M} independent trajectories are simulated. 
+If the initial value \code{X0} is not of the length \code{M}, the values are recycled
+in order to have an initial vector of the correct length. 
+If \code{delta} is not specified, then \code{delta = (T-t0)/N}.
 If \code{delta} is specified, then \code{N}  values of the solution of the sde are generated and
 the time horizon \code{T} is adjusted to be \code{N * delta}.
 
@@ -87,6 +93,11 @@ d <- expression(-5 * x)
 s <- expression(3.5) 
 sde.sim(X0=10,drift=d, sigma=s) -> X
 plot(X,main="Ornstein-Uhlenbeck")
+
+# Multiple trajectories of the O-U process
+set.seed(123)
+sde.sim(X0=10,drift=d, sigma=s, M=3) -> X
+plot(X,main="Multiple trajectories of O-U")
 
 # Cox-Ingersoll-Ross process
 # dXt = (6-3*Xt)*dt + 2*sqrt(Xt)*dWt
