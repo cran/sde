@@ -1,3 +1,10 @@
+Changes from sde_1.9.4 to sde_1.9.5:
+------------------------------------
+
+1.  added all examples from charpter 1 and 2; some
+	of chapter 3
+2.  cleaning of internal C code
+
 Changes from sde_1.8 to sde_1.9.4:
 ----------------------------------
 

@@ -128,8 +128,8 @@ SEXP sde_sim_euler(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(alpha = AS_NUMERIC(alpha));
   PROTECT(corr = AS_LOGICAL(corr));
   
-  n = *INTEGER_POINTER(N);
-  m = *INTEGER_POINTER(M);
+  n = *INTEGER(N);
+  m = *INTEGER(M);
 
   PROTECT(Y1 = NEW_NUMERIC(m));
   PROTECT(Y2 = NEW_NUMERIC(m));
@@ -140,14 +140,14 @@ SEXP sde_sim_euler(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   rX = REAL(X);
   rY1 = REAL(Y1);
   rY2 = REAL(Y2);
-  rx0 = NUMERIC_POINTER(x0);  
+  rx0 = REAL(x0);  
   for(j=0; j<m; j++)
    rX[j*(n+1)] = rx0[j]; 
-  T1 = *NUMERIC_POINTER(t0);
-  DELTA = *NUMERIC_POINTER(delta);
-  ETA = *NUMERIC_POINTER(eta);
-  ALPHA = *NUMERIC_POINTER(alpha);
-  CORR = *LOGICAL_POINTER(corr);
+  T1 = *REAL(t0);
+  DELTA = *REAL(delta);
+  ETA = *REAL(eta);
+  ALPHA = *REAL(alpha);
+  CORR = *LOGICAL(corr);
 
   sdt = sqrt(DELTA);
 
@@ -212,17 +212,17 @@ SEXP sde_sim_milstein(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(t0 = AS_NUMERIC(t0));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *NUMERIC_POINTER(t0);
-  n = *INTEGER_POINTER(N);
-  m = *INTEGER_POINTER(M);
+  T = *REAL(t0);
+  n = *INTEGER(N);
+  m = *INTEGER(M);
 
-  DELTA = *NUMERIC_POINTER(delta);
+  DELTA = *REAL(delta);
 
   if(m>1)
    PROTECT(X = allocMatrix(REALSXP, n+1, m));
   else
    PROTECT(X = NEW_NUMERIC(n+1));
-  rx0 = NUMERIC_POINTER(x0);  
+  rx0 = REAL(x0);  
   rX = REAL(X);
   for(j=0; j<m; j++)
    rX[j*(n+1)] = rx0[j]; 
@@ -274,16 +274,16 @@ SEXP sde_sim_milstein2(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(t0 = AS_NUMERIC(t0));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *NUMERIC_POINTER(t0);
-  n = *INTEGER_POINTER(N);
-  m = *INTEGER_POINTER(M);
-  DELTA = *NUMERIC_POINTER(delta);
+  T = *REAL(t0);
+  n = *INTEGER(N);
+  m = *INTEGER(M);
+  DELTA = *REAL(delta);
 
   if(m>1)
    PROTECT(X = allocMatrix(REALSXP, n+1, m));
   else
    PROTECT(X = NEW_NUMERIC(n+1));
-  rx0 = NUMERIC_POINTER(x0);  
+  rx0 = REAL(x0);  
   rX = REAL(X);
   for(j=0; j<m; j++)
    rX[j*(n+1)] = rx0[j]; 
@@ -351,17 +351,17 @@ SEXP sde_sim_KPS(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(U = AS_NUMERIC(U));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *NUMERIC_POINTER(t0);
-  n = *INTEGER_POINTER(N);
-  m = *INTEGER_POINTER(M);
+  T = *REAL(t0);
+  n = *INTEGER(N);
+  m = *INTEGER(M);
 
-  DELTA = *NUMERIC_POINTER(delta);
+  DELTA = *REAL(delta);
 
   if(m>1)
    PROTECT(X = allocMatrix(REALSXP, n+1, m));
   else
    PROTECT(X = NEW_NUMERIC(n+1));
-  rx0 = NUMERIC_POINTER(x0);  
+  rx0 = REAL(x0);  
   rX = REAL(X);
   rZ = REAL(Z);
   rU = REAL(U);
@@ -417,17 +417,17 @@ SEXP sde_sim_cdist(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(t0 = AS_NUMERIC(t0));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *NUMERIC_POINTER(t0);
-  n = *INTEGER_POINTER(N);
-  m = *INTEGER_POINTER(M);
+  T = *REAL(t0);
+  n = *INTEGER(N);
+  m = *INTEGER(M);
 
-  DELTA = *NUMERIC_POINTER(delta);
+  DELTA = *REAL(delta);
 
   if(m>1)
    PROTECT(X = allocMatrix(REALSXP, n+1, m));
   else
    PROTECT(X = NEW_NUMERIC(n+1));
-  rx0 = NUMERIC_POINTER(x0);  
+  rx0 = REAL(x0);  
   rX = REAL(X);
   for(j=0; j<m; j++)
    rX[j*(n+1)] = rx0[j]; 
@@ -468,17 +468,17 @@ SEXP sde_sim_ozaki(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(s = AS_NUMERIC(s));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *NUMERIC_POINTER(t0);
-  S = *NUMERIC_POINTER(s);
-  n = *INTEGER_POINTER(N);
-  m = *INTEGER_POINTER(M);
-  DELTA = *NUMERIC_POINTER(delta);
+  T = *REAL(t0);
+  S = *REAL(s);
+  n = *INTEGER(N);
+  m = *INTEGER(M);
+  DELTA = *REAL(delta);
 
   if(m>1)
    PROTECT(X = allocMatrix(REALSXP, n+1, m));
   else
    PROTECT(X = NEW_NUMERIC(n+1));
-  rx0 = NUMERIC_POINTER(x0);  
+  rx0 = REAL(x0);  
   rX = REAL(X);
   for(j=0; j<m; j++)
    rX[j*(n+1)] = rx0[j]; 
@@ -528,17 +528,17 @@ SEXP sde_sim_shoji(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(s = AS_NUMERIC(s));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *NUMERIC_POINTER(t0);
-  S = *NUMERIC_POINTER(s);
-  n = *INTEGER_POINTER(N);
-  m = *INTEGER_POINTER(M);
-  DELTA = *NUMERIC_POINTER(delta);
+  T = *REAL(t0);
+  S = *REAL(s);
+  n = *INTEGER(N);
+  m = *INTEGER(M);
+  DELTA = *REAL(delta);
 
   if(m>1)
    PROTECT(X = allocMatrix(REALSXP, n+1, m));
   else
    PROTECT(X = NEW_NUMERIC(n+1));
-  rx0 = NUMERIC_POINTER(x0);  
+  rx0 = REAL(x0);  
   rX = REAL(X);
   for(j=0; j<m; j++)
    rX[j*(n+1)] = rx0[j]; 
@@ -614,7 +614,7 @@ double feval(double t, double x, SEXP f, SEXP rho)
 
 	SETCADR(R_fcall, tpar);
 	SETCADDR(R_fcall, xpar);
-    val = *NUMERIC_POINTER(eval(R_fcall, rho));
+    val = *REAL(eval(R_fcall, rho));
     UNPROTECT(3);
 		
     return(val);
