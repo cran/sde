@@ -43,6 +43,7 @@
  * used to evaluate drift and diffusion coefficients
  */
 double feval(double t, double x, SEXP f, SEXP rho);
+double ftheta(double t, double x, SEXP theta, SEXP f, SEXP rho);
 
 
 /* interfaces to sde.sim.xxx(.R) */
@@ -564,6 +565,215 @@ SEXP sde_sim_shoji(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   return(X);
 }
 
+/* approximate transition densities */
+
+/* Hermite polynomials up to order 6*/
+double H0(double z){ 
+ return(1.0);
+}
+double H1(double z){ 
+ return(-z);
+}
+double H2(double z){ 
+ return(-1.0+z*z);
+}
+double H3(double z){ 
+ return(3.0*z-z*z*z);
+}
+double H4(double z){ 
+ double z2 = z*z;
+ return(3.0-6.0*z2+z2*z2);
+} 
+double H5(double z){
+ double z2=z*z;
+ return(-15.0*z+10.0*z*z2-z*z2*z2);
+}
+double H6(double z){
+ double z2=z*z;
+ return(-15.0+45.0*z2-15.0*z2*z2+z2*z2*z2);
+}
+
+
+/* transition densities */
+
+
+
+/* cHP:  approximated transition density. Internal function only.
+		 to be called by HPloglik
+ */
+double cHP(double Delta, double mu0, double mu1, double mu2, double mu3,
+						   double mu4, double mu5, double mu6, 
+						   double z, double s);
+
+
+
+SEXP HPloglik(SEXP delta, SEXP X, SEXP theta, SEXP M0, SEXP M1,
+                  SEXP M2, SEXP M3, SEXP M4, SEXP M5, SEXP M6, 
+				  SEXP F, SEXP S, SEXP rho);
+
+
+
+/* HPloglik: likelihood approximation by Hermite poynomials 
+   Ait-Sahalia, Y. (2002) "Maximum likelihood estimation of
+   discretely sampled diffusions: a clsed form approximation 
+   approach", Econometrica, 70, 223-262
+
+	Delta: time step
+	X: data
+	theta: vector of parameters
+	M0: drift of the trans. diffusion
+	M1,..., M6: derivatives of M0 up to order 6
+	F: transform function
+	S: diffusion coefficient
+	F, S, M0-M6 are functions of (x,theta)
+    There is no sanity check on these functions. Be warned!!!
+    see text, Chapter 3.
+	
+	To obtain the transition density, just call HP with X
+	of length 2.
+	
+	function returns the log-likelihood
+*/   
+   
+
+SEXP HPloglik(SEXP delta, SEXP X, SEXP theta, SEXP M0, SEXP M1,
+                  SEXP M2, SEXP M3, SEXP M4, SEXP M5, SEXP M6, 
+				  SEXP F, SEXP S, SEXP rho){
+ double f, y0, Delta;
+ double sd, ssd, z;
+ double mu0, mu1, mu2, mu3, mu4, mu5, mu6;
+ double val=0.0;
+ int i, n;
+ double *x;
+ SEXP ans;
+ 
+ if(!isNumeric(X)) error("`X' must be numeric");
+ if(!isNumeric(delta)) error("`delta' must be numeric");
+
+ PROTECT(ans = NEW_NUMERIC(1));
+ PROTECT(delta = AS_NUMERIC(delta));
+ PROTECT(X = AS_NUMERIC(X));
+ PROTECT(theta);
+ PROTECT(M0);
+ PROTECT(M1);
+ PROTECT(M2);
+ PROTECT(M3);
+ PROTECT(M4);
+ PROTECT(M5);
+ PROTECT(M6);
+ PROTECT(F);
+ PROTECT(S);
+ PROTECT(theta);
+ 
+ Delta = *REAL(delta);
+ x = REAL(X);
+ n = length(X);
+ sd = sqrt(Delta);
+
+ for(i=1; i<n; i++){   
+  y0 = ftheta(0,x[i-1],theta, F, rho);
+  f = ftheta(0,x[i],theta, F, rho);
+  ssd = ftheta(0,x[i], theta, S, rho)*sd;
+  mu0 = ftheta(0,y0, theta, M0, rho);
+  mu1 = ftheta(0,y0, theta, M1, rho);  
+  mu2 = ftheta(0,y0, theta, M2, rho);  
+  mu3 = ftheta(0,y0, theta, M3, rho);  
+  mu4 = ftheta(0,y0, theta, M4, rho);  
+  mu5 = ftheta(0,y0, theta, M5, rho);  
+  mu6 = ftheta(0,y0, theta, M6, rho);  
+  val+= log(cHP(Delta, mu0, mu1, mu2, mu3, mu4, mu5, mu6, (f-y0)/sd, ssd));
+ }
+  
+ REAL(ans)[0] = val; 
+ UNPROTECT(14);
+ return(ans);
+}
+
+SEXP EULERloglik(SEXP delta, SEXP X, SEXP theta, SEXP d, SEXP s, SEXP rho){
+ double Delta, sd;
+ double val=0.0;
+ int i, n;
+ double *x;
+ SEXP ans;
+ 
+ if(!isNumeric(X)) error("`X' must be numeric");
+ if(!isNumeric(delta)) error("`delta' must be numeric");
+
+ PROTECT(ans = NEW_NUMERIC(1));
+ PROTECT(delta = AS_NUMERIC(delta));
+ PROTECT(X = AS_NUMERIC(X));
+ PROTECT(theta);
+ PROTECT(d);
+ PROTECT(s);
+ PROTECT(theta);
+ 
+ Delta = *REAL(delta);
+ x = REAL(X);
+ n = length(X);
+ sd = sqrt(Delta);
+
+ for(i=1; i<n; i++){  
+  val += dnorm(x[i], x[i-1] + ftheta(0,x[i-1], theta, d, rho)*Delta, 
+                sd* ftheta(0, x[i-1], theta, s, rho), TRUE);  
+ }
+  
+ REAL(ans)[0] = val; 
+ UNPROTECT(7);
+ return(ans);
+}
+
+
+double cHP(double Delta, double mu0, double mu1, double mu2, double mu3,
+						   double mu4, double mu5, double mu6, 
+						   double z, double ssd){
+ double eta1, eta2, eta3, eta4, eta5, eta6;
+ double mu02, mu03, mu04, mu05, mu06;
+ double mu12, mu13, mu22;
+ double val;
+ 
+ mu02 = pow(mu0,2.0);
+ mu03 = pow(mu0,3.0);
+ mu04 = pow(mu0,4.0);
+ mu05 = pow(mu0,5.0);
+ mu06 = pow(mu0,6.0);
+ mu12 = pow(mu1,2.0);
+ mu13 = pow(mu1,3.0);
+ mu22 = pow(mu2,2.0);
+ 
+ eta1 = -mu0*sqrt(Delta) - (2.0*mu0*mu1+mu2)*pow(Delta, 1.5)/4.0
+  -(4.0*mu0*mu12 + 4.0*mu02*mu2 + 6.0*mu1*mu2 + 
+    4.0*mu0*mu3 + mu4)*pow(Delta,2.5)/24.0;
+
+ eta2 = (mu02+mu1)*Delta/2.0 + (6.0*mu02*mu1 + 4.0*mu12
+  + 7.0*mu0*mu2 + 2*mu3)*pow(Delta,2.0)/12.0 +(28.0*mu02*mu12
+  + 28.0*mu02*mu3 + 16.0*mu13 
+  + 16.0*mu03*mu2 + 88.0*mu0*mu1*mu2 + 21.0*mu22 + 32.0*mu1*mu3 
+  + 16.0*mu0*mu4 + 3.0*mu5)*pow(Delta,3.0)/96.0;
+
+ eta3 = -(mu03 + 3.0*mu0*mu1 + mu2)*pow(Delta,1.5)/6.0 - (12.0*mu03 * mu1 
+  + 28.0*mu0*mu12 + 22.0*mu02*mu2 + 24.0*mu1*mu2 + 14.0*mu0*mu3 
+  + 3.0*mu4)*pow(Delta,2.5)/48.0;
+
+ eta4 = (mu04 + 6.0*mu02 * mu1 + 3.0*mu12 + 4.0*mu0*mu2 + mu3)*pow(Delta,2.0)/24.0
+  + (20.0*mu04*mu1 + 50.0*mu03*mu2 + 100.0*mu02*mu12 + 50.0*mu02*mu3 
+  + 23.0*mu0*mu4 + 180.0*mu0*mu1*mu2 + 40.0*mu13 + 34.0*mu22 + 52.0*mu1*mu3
+  + 4.0*mu5)*pow(Delta,3.0)/240.0;
+
+ eta5 = -(mu05 + 10.0*mu03*mu1 + 15.0*mu0*mu12 + 10.0*mu02*mu2
+  + 10.0*mu1*mu2 + 5.0*mu0*mu3 + mu4)*pow(Delta,2.5)/120.0;
+ 
+ eta6 = (mu06 + 15.0*mu04*mu1 + 15.0*mu13 + 20.0*mu03*mu2 + 15.0*mu0*mu3 
+  + 45.0*mu02*mu12 + 10.0*mu22 + 15.0*mu02*mu3 + 60.0*mu0*mu1*mu2
+  + 6.0*mu0*mu4 + mu5)*pow(Delta,3.0)/720.0;
+
+ val = dnorm(z, 0.0, 1.0, FALSE) * (1.0 + eta1*H1(z) + eta2*H2(z) + eta3*H3(z) 
+        + eta4*H4(z) + eta5*H5(z) + eta6*H6(z))/ssd;
+
+ return(val);
+}
+
+
+
 static R_CMethodDef R_CDef[] = {
    {"sde_sim_euler", (DL_FUNC)&sde_sim_euler, 12},
    {"sde_sim_milstein", (DL_FUNC)&sde_sim_milstein, 9},
@@ -572,6 +782,8 @@ static R_CMethodDef R_CDef[] = {
    {"sde_sim_cdist", (DL_FUNC)&sde_sim_cdist, 7},
    {"sde_sim_ozaki", (DL_FUNC)&sde_sim_ozaki, 9},
    {"sde_sim_shoji", (DL_FUNC)&sde_sim_shoji, 11},
+   {"HPloglik", (DL_FUNC)&HPloglik, 13},
+   {"EULERloglik", (DL_FUNC)&EULERloglik, 6},
    {NULL, NULL, 0},
 };
 
@@ -582,7 +794,7 @@ R_init_ifs(DllInfo *info)
 }
 
 
-
+/* Accessor functions. For internal use only. */
 
 /* feval:
    ------------
@@ -619,5 +831,34 @@ double feval(double t, double x, SEXP f, SEXP rho)
 		
     return(val);
 
+}
+
+/* ftheta: this is intended to calculate   f(t, x,theta) where
+   't' and 'x' are C doubles and 'theta' is a SEXP coming from the
+   R workspace.
+*/   
+
+double ftheta(double t, double x, SEXP theta, SEXP f, SEXP rho)
+{
+    double val= 0.0;
+    SEXP R_fcall, tpar, xpar; 
+	
+	PROTECT(theta);
+	PROTECT(tpar = allocVector(REALSXP, 1));
+	PROTECT(xpar = allocVector(REALSXP, 1));
+    REAL(tpar)[0] = t;
+    REAL(xpar)[0] = x;
+   
+	PROTECT(R_fcall = allocList(4));
+	SETCAR(R_fcall, f);
+	SET_TYPEOF(R_fcall, LANGSXP);
+
+	SETCADR(R_fcall, tpar);
+	SETCADDR(R_fcall, xpar);
+	SETCADDDR(R_fcall, theta);
+    val = *REAL(eval(R_fcall, rho));
+    UNPROTECT(4);
+		
+    return(val);
 }
 

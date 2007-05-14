@@ -1,4 +1,4 @@
-# ex 3.06.R
+# ex3.06.R
 require(sde)
 
 d <- function(t,x,theta) theta[1]-theta[2] * x
@@ -54,7 +54,7 @@ pOzaki <- function(x) Ozaki.LIK(x)
 pShoji <- function(x) Shoji.LIK(x)
 
 
-# ex 3.06.R (cont)
+# ex3.06.R (cont)
 set.seed(123)
 X1 <- sde.sim(model="CIR", theta=c(0.5, 0.2, sqrt(0.05)), 
  X0=2,delta=.001, N=500000)

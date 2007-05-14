@@ -16,6 +16,7 @@ source("ex2.13.R")
 source("ex2.14.R")
 source("ex2.15.R")
 source("ex2.16.R")
+source("ex2.17.R")
 
 
 
