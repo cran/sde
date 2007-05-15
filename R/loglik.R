@@ -16,3 +16,12 @@
 
  exp(val)
 }
+
+SIMloglik <- function(X, theta, d, s,  M=10000, N=2, log=TRUE){
+ val <- .Call("SIMloglik", as.numeric(X), deltat(X), d, s, theta, as.integer(N), 
+  as.integer(M), .GlobalEnv, PACKAGE = "sde")
+ if(log)
+  return(val)
+ exp(val) 
+}
+

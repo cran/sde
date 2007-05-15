@@ -10,7 +10,7 @@ function(X0, t0, Dt, N, d1, d1.x, k1, k2, phi, max.psi, rh, A){
    }
    if(missing(k2)){
     cat("k2 missing, trying numerical maximization...") 
-    k2 <- optimize(psi, c(0, max.psi),max=TRUE)$obj
+    k2 <- optimize(psi, c(0, max.psi),maximum=TRUE)$obj
     cat(sprintf("(k2=%5.3f)\n",k2))
   }
    
@@ -33,7 +33,7 @@ function(X0, t0, Dt, N, d1, d1.x, k1, k2, phi, max.psi, rh, A){
    rh <- function(){
     h <- function(x) exp(A(x) - x^2/(2*Dt))
     f <- function(x) h(x)/dnorm(x,sqrt(Dt))
-    maxF <- optimize(f,c(-3*Dt, 3*Dt),max=TRUE)$obj
+    maxF <- optimize(f,c(-3*Dt, 3*Dt),maximum=TRUE)$obj
     while(1){
      y <- rnorm(1)
      if( runif(1) < f(y)/maxF )

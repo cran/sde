@@ -1,0 +1,69 @@
+\name{dcSim}
+\alias{dcSim}
+\title{Pedersen's Simulated transition density}
+\description{
+Simulated transition density X(t)|X(0)=x0 of a diffusion process based on
+Pedersen's method}
+\usage{
+dcSim(x0, x, t, d, s, theta, M=10000, N=10, log=FALSE)
+}
+\arguments{
+  \item{x0}{the value of process at time \code{0}}
+  \item{x}{value in which to evaluate the conditional density}
+  \item{t}{lag or time.}
+  \item{theta}{parameter of the process. See details.}
+  \item{log}{logical; if TRUE, probabilities p are given as log(p).}
+  \item{d}{drift coefficient as a function. See details.}
+  \item{s}{diffusion coefficient as a function. See details.}
+  \item{N}{number of subintervals. See details.}
+  \item{M}{number of Monte Carlo simulations. Should be an even number. See details.}
+}
+\details{
+This function returns the value of the conditional density of
+\code{X(t) | X(0) = x0} at point \code{x}. 
+
+All the functions \code{d}, \code{s}, must be functions of \code{t}, 
+\code{x} and \code{theta}.
+}
+\value{
+  \item{x}{a numeric vector}
+}
+\references{
+Pedersen, A. R. (1995) A new approach to maximum likelihood estimation for 
+stochastic differential equations based on discrete observations,
+\emph{Scand. J. Statist.}, 22, 55-71.
+}
+\author{Stefano Maria Iacus}
+\note{This package is a companion to the book \emph{Simulation and Inference
+for Stochastic Differential Equation}, Springer, NY.
+}
+\examples{
+d <- function(t,x,theta) theta[1]*(theta[2]-x)
+s <- function(t,x,theta) theta[3]*sqrt(x)
+from = 0.08
+to = 0.1
+set.seed(123)
+dcSim(from, to, 0.5, d, s, c(2,0.02,0.15), M=10000,N=10) # approx likelihood
+dcCIR(to, 0.5, from, c(2*0.02,2,0.15)) # exact likelihood
+\dontrun{
+## approximation is better if N increases
+from <- 0.08
+x <- seq(0,0.2, length=100)
+sle10 <- NULL
+sle2 <- NULL
+sle5 <- NULL
+true <- NULL
+set.seed(123)
+for(to in x){
+ sle10 <- c(sle10, dcSim(from, to, 0.5, d, s, theta=c(2,0.02,0.15), M=10000,N=10))
+ sle2 <- c(sle2, dcSim(from, to, 0.5, d, s, theta=c(2,0.02,0.15), M=10000,N=2))
+ sle5 <- c(sle5, dcSim(from, to, 0.5, d, s, theta=c(2,0.02,0.15), M=10000,N=5))
+ true <- c(true, dcCIR(to, 0.5, from, c(2*0.02,2,0.15)))
+}
+plot(x, true, type="l", ylab="likelihood")
+lines(x, sle2, col="red")
+lines(x, sle5, col="green")
+lines(x, sle10, col="blue")
+}}
+\keyword{datagen}
+\keyword{ts}

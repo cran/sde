@@ -83,11 +83,11 @@ for(dt in c(4, 2,1,.5)){
  legend(.15,0.6*(mx+mn), lty=1:5,col=1:5,
   legend=c("True", "Euler", "Ozaki", "Shoji","Elerian"))
 
- tmp <- c(n, dt, optimize(pTrue, c(0.01,.4),max=T)$max,
-  optimize(pEuler, c(0,.4),max=T)$max,
-  optimize(pElerian, c(0,1),max=T)$max,
-  optimize(pOzaki, c(0,.4),max=T)$max,
-  optimize(pShoji, c(0,.4),max=T)$max)
+ tmp <- c(n, dt, optimize(pTrue, c(0.01,.4),maximum=T)$max,
+  optimize(pEuler, c(0,.4),maximum=T)$max,
+  optimize(pElerian, c(0,1),maximum=T)$max,
+  optimize(pOzaki, c(0,.4),maximum=T)$max,
+  optimize(pShoji, c(0,.4),maximum=T)$max)
  est <- rbind(est, tmp)
 }
 dimnames(est)[[2]] <- c("N","Delta","True","Euler", 

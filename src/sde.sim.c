@@ -45,6 +45,36 @@
 double feval(double t, double x, SEXP f, SEXP rho);
 double ftheta(double t, double x, SEXP theta, SEXP f, SEXP rho);
 
+/* transition densities */
+
+
+
+/* cHP:  approximated transition density. Internal function only.
+		 to be called by HPloglik
+ */
+double cHP(double Delta, double mu0, double mu1, double mu2, double mu3,
+						   double mu4, double mu5, double mu6, 
+						   double z, double s);
+
+
+/* HPloglik: likelihood approximation by Hermite poynomials 
+   Ait-Sahalia, Y. (2002) "Maximum likelihood estimation of
+   discretely sampled diffusions: a clsed form approximation 
+   approach", Econometrica, 70, 223-262
+*/
+SEXP HPloglik(SEXP delta, SEXP X, SEXP theta, SEXP M0, SEXP M1,
+                  SEXP M2, SEXP M3, SEXP M4, SEXP M5, SEXP M6, 
+				  SEXP F, SEXP S, SEXP rho);
+
+/* Euler log-likelihood */
+SEXP EULERloglik(SEXP delta, SEXP X, SEXP theta, SEXP d, SEXP s, SEXP rho);
+
+
+/* Pedersen's simulated transition density */
+SEXP dcSim(SEXP X, SEXP Y, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP M, SEXP rho);
+
+/* Pedersen's simulated likelihood */
+SEXP SIMloglik(SEXP X, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP M, SEXP rho);
 
 /* interfaces to sde.sim.xxx(.R) */
 /* parameters: do not apply to all functions
@@ -594,23 +624,6 @@ double H6(double z){
 }
 
 
-/* transition densities */
-
-
-
-/* cHP:  approximated transition density. Internal function only.
-		 to be called by HPloglik
- */
-double cHP(double Delta, double mu0, double mu1, double mu2, double mu3,
-						   double mu4, double mu5, double mu6, 
-						   double z, double s);
-
-
-
-SEXP HPloglik(SEXP delta, SEXP X, SEXP theta, SEXP M0, SEXP M1,
-                  SEXP M2, SEXP M3, SEXP M4, SEXP M5, SEXP M6, 
-				  SEXP F, SEXP S, SEXP rho);
-
 
 
 /* HPloglik: likelihood approximation by Hermite poynomials 
@@ -723,6 +736,136 @@ SEXP EULERloglik(SEXP delta, SEXP X, SEXP theta, SEXP d, SEXP s, SEXP rho){
 }
 
 
+SEXP dcSim(SEXP X, SEXP Y, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP M, SEXP rho){
+ double Delta, sd, tmp, tmp1, x1, x2, z;
+ int i, j, k, m;
+ double x, y;
+ int NN, MM;
+ SEXP ans;
+ 
+ if(!isNumeric(X)) error("`X' must be numeric");
+ if(!isNumeric(Y)) error("`Y' must be numeric");
+ if(!isNumeric(delta)) error("`delta' must be numeric");
+ if(!isInteger(N)) error("`N' must be integer");
+ if(!isInteger(M)) error("`M' must be integer");
+
+ PROTECT(delta = AS_NUMERIC(delta));
+ PROTECT(X = AS_NUMERIC(X));
+ PROTECT(Y = AS_NUMERIC(Y));
+ PROTECT(N = AS_INTEGER(N));
+ PROTECT(M = AS_INTEGER(M));
+ PROTECT(theta);
+ PROTECT(d);
+ PROTECT(s);
+ PROTECT(theta);
+ 
+ NN = *INTEGER(N);
+ Delta = *REAL(delta)/(double)NN;
+ MM = *INTEGER(M);
+ x = *REAL(X);
+ y = *REAL(Y);
+ PROTECT(ans = NEW_NUMERIC(1));
+ sd = sqrt(Delta);
+
+ GetRNGstate();
+ tmp = 0.0;
+ k = 0;
+
+ for(m=0; m<MM-1; m+=2){ /* MC iterations */
+  x1 = x2 = x;
+  for(i=1; i<NN; i++){  /* number of sub-intervals */
+   z = rnorm(0,1);
+   x1 += ftheta(0, x1, theta, d, rho)*Delta + ftheta(0, x1, theta, s, rho)*sd*z; 
+   x2 += ftheta(0, x2, theta, d, rho)*Delta - ftheta(0, x2, theta, s, rho)*sd*z;    
+  }
+  tmp1 = dnorm(y, x1 + ftheta(0, x1, theta, d, rho)*Delta,
+                sd*ftheta(0, x1, theta, s, rho), FALSE);
+  if(!isnan(tmp1)){				
+   tmp += tmp1;
+   k++;
+  }
+  tmp1 = dnorm(y, x2 + ftheta(0, x2, theta, d, rho)*Delta,
+                sd*ftheta(0, x2, theta, s, rho), FALSE);
+  if(!isnan(tmp1)){				
+   tmp += tmp1;
+   k++;
+   }
+ } /* MM */
+ REAL(ans)[0] = tmp/k;
+ 
+ PutRNGstate();
+  
+ UNPROTECT(10);
+ return(ans);
+}
+
+
+
+SEXP SIMloglik(SEXP X, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP M, SEXP rho){
+ double Delta, sd, tmp, tmp1, x1, x2, z;
+ int h, i, j, k, m, n;
+ double *x, val;
+ int NN, MM;
+ SEXP ans;
+ 
+ if(!isNumeric(X)) error("`X' must be numeric");
+ if(!isNumeric(delta)) error("`delta' must be numeric");
+ if(!isInteger(N)) error("`N' must be integer");
+ if(!isInteger(M)) error("`M' must be integer");
+
+ PROTECT(delta = AS_NUMERIC(delta));
+ PROTECT(X = AS_NUMERIC(X));
+ PROTECT(N = AS_INTEGER(N));
+ PROTECT(M = AS_INTEGER(M));
+ PROTECT(theta);
+ PROTECT(d);
+ PROTECT(s);
+ PROTECT(theta);
+ n = length(X);
+  
+ NN = *INTEGER(N);
+ Delta = *REAL(delta)/(double)NN;
+ MM = *INTEGER(M);
+ x = REAL(X);
+ PROTECT(ans = NEW_NUMERIC(1));
+ sd = sqrt(Delta);
+
+ GetRNGstate();
+ val = 0;
+ for(h=1; h<n; h++){
+  tmp = 0.0;
+  k = 0;
+
+  for(m=0; m<MM-1; m+=2){ /* MC iterations */
+   x1 = x2 = x[h-1];
+   for(i=1; i<NN; i++){  /* number of sub-intervals */
+    z = rnorm(0,1);
+    x1 += ftheta(0, x1, theta, d, rho)*Delta + ftheta(0, x1, theta, s, rho)*sd*z; 
+    x2 += ftheta(0, x2, theta, d, rho)*Delta - ftheta(0, x2, theta, s, rho)*sd*z;    
+   }
+   tmp1 = dnorm(x[h], x1 + ftheta(0, x1, theta, d, rho)*Delta,
+                sd*ftheta(0, x1, theta, s, rho), FALSE);
+   if(!isnan(tmp1)){				
+    tmp += tmp1;
+    k++;
+   }
+   tmp1 = dnorm(x[h], x2 + ftheta(0, x2, theta, d, rho)*Delta,
+                sd*ftheta(0, x2, theta, s, rho), FALSE);
+   if(!isnan(tmp1)){				
+    tmp += tmp1;
+    k++;
+    }
+  } /* MM */
+  val += log(tmp/k);
+ }
+ REAL(ans)[0] = val;
+ PutRNGstate();
+  
+ UNPROTECT(9);
+ return(ans);
+}
+
+
 double cHP(double Delta, double mu0, double mu1, double mu2, double mu3,
 						   double mu4, double mu5, double mu6, 
 						   double z, double ssd){
@@ -784,6 +927,8 @@ static R_CMethodDef R_CDef[] = {
    {"sde_sim_shoji", (DL_FUNC)&sde_sim_shoji, 11},
    {"HPloglik", (DL_FUNC)&HPloglik, 13},
    {"EULERloglik", (DL_FUNC)&EULERloglik, 6},
+   {"SIMloglik", (DL_FUNC)&SIMloglik, 8},
+   {"dcSim", (DL_FUNC)&dcSim, 9},
    {NULL, NULL, 0},
 };
 

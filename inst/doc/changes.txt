@@ -1,3 +1,11 @@
+Changes from sde_1.9.7 to sde_1.9.11:
+1.	added SIMloglik for Pedersen's simulated likelihood
+2. 	added cdSim, Pedersen's sim. cond. density
+
+Changes from sde_1.9.7 to sde_1.9.10:
+1.	fixed argument naming in optimize()
+2.	fixed code in simple.ef2
+
 Changes from sde_1.9.5 to sde_1.9.7:
 ------------------------------------
 1.	added Hermite polynomial expansion log-likelihood approx HPloglik

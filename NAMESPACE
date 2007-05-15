@@ -28,6 +28,7 @@ export(dcElerian)
 export(dcKessler)
 export(dcOzaki)
 export(dcShoji)
+export(dcSim)
 # Brownian motion related
 export(BM)
 export(GBM)
@@ -35,6 +36,8 @@ export(BBridge)
 # likelihood related
 export(HPloglik)
 export(EULERloglik)
+export(SIMloglik)
+# estimating functions related
 export(simple.ef)
 export(simple.ef2)
 export(linear.mart.ef)
