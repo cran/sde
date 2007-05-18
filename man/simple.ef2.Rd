@@ -3,7 +3,7 @@
 \title{Simple estimating function based on infinitesimal generator}
 \description{Apply simple estimating function based on the infinitesimal
 generator of a diffusion to find estimates of the
-parameters of a process solution of that particular stochastic differential equation.}
+parameters of a process solution of that particular stochastic differential equation.
 }
 \usage{
 simple.ef2(X, drift, sigma, h, h.x, h.xx, guess, lower, upper) 

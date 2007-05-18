@@ -2,7 +2,7 @@
 \alias{simple.ef}
 \title{Simple estimating function of type I and II}
 \description{Apply simple estimating function to find estimates of the
-parameters of a process solution of a stochastic differential equation.}
+parameters of a process solution of a stochastic differential equation.
 }
 \usage{
 simple.ef(X, f, guess, lower, upper) 

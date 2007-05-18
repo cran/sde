@@ -4,7 +4,7 @@
 \description{Euler approximation 
 of the likelihood of a process solution of a stochastic differential equation.
 These functions are useful to calculate approximated maximum-likelihood estimators
-when the transition density of the process is not known.}
+when the transition density of the process is not known.
 }
 \usage{
 EULERloglik(X, theta, d, s, log = TRUE) 

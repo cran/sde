@@ -2,7 +2,7 @@
 \alias{linear.mart.ef}
 \title{Linear martingale estimating function}
 \description{Apply linear martingale estimating function to find estimates of the
-parameters of a process solution of a stochastic differential equation.}
+parameters of a process solution of a stochastic differential equation.
 }
 \usage{
 linear.mart.ef(X, drift, sigma, a1, a2, guess, 

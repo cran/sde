@@ -5,7 +5,7 @@
 of the likelihood of a process solution of a stochastic differential equation.
 These function is useful to calculate approximated maximum-likelihood estimators
 when the transition density of the process is not known. It is computationally
-intensive.}
+intensive.
 }
 \usage{
 SIMloglik(X, theta, d, s,  M=10000, N=2, log=TRUE)

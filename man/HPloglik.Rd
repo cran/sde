@@ -5,7 +5,7 @@ of the likelihood}
 \description{Ait-Sahalia Hermite polynomial expansion and Euler approximation 
 of the likelihood of a process solution of a stochastic differential equation.
 These functions are useful to calculate approximated maximum-likelihood estimators
-when the transition density of the process is not known.}
+when the transition density of the process is not known.
 }
 \usage{
 HPloglik(X, theta, M, F, s, log=TRUE)
