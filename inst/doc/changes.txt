@@ -1,3 +1,7 @@
+Changes from sde_1.9.11 to sde_1.9.13:
+1.	fixed .Rd issues
+2.	fixed SIMloglik and cdSim algorithms
+
 Changes from sde_1.9.7 to sde_1.9.11:
 1.	added SIMloglik for Pedersen's simulated likelihood
 2. 	added cdSim, Pedersen's sim. cond. density

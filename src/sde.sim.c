@@ -761,6 +761,7 @@ SEXP dcSim(SEXP X, SEXP Y, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP 
  
  NN = *INTEGER(N);
  Delta = *REAL(delta)/(double)NN;
+ NN--;
  MM = *INTEGER(M);
  x = *REAL(X);
  y = *REAL(Y);
@@ -825,6 +826,7 @@ SEXP SIMloglik(SEXP X, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP M, S
   
  NN = *INTEGER(N);
  Delta = *REAL(delta)/(double)NN;
+ NN--;
  MM = *INTEGER(M);
  x = REAL(X);
  PROTECT(ans = NEW_NUMERIC(1));

@@ -40,7 +40,7 @@ stochastic differential equations based on discrete observations,
 set.seed(123)
 d <- expression(-1*x)
 s <- expression(2) 
-sde.sim(drift=d, sigma=s,N=100,delta=0.01) -> X
+sde.sim(drift=d, sigma=s,N=50,delta=0.01) -> X
 
 S <- function(t, x, theta) sqrt(theta[2])
 B <- function(t, x, theta) -theta[1]*x
@@ -54,14 +54,13 @@ true.loglik <- function(theta) {
  lik  
 }
 
-xx <- seq(-3,3,length=10)
+xx <- seq(-10,10,length=20)
 sapply(xx, function(x) true.loglik(c(x,4))) -> py
 sapply(xx, function(x) EULERloglik(X,c(x,4),B,S)) -> pz
+sapply(xx, function(x) SIMloglik(X,c(x,4),B,S,M=10000,N=5)) -> pw
 
-plot(xx,py,type="l",xlab=expression(beta),ylab="log-likelihood") # true
+plot(xx,py,type="l",xlab=expression(beta),ylab="log-likelihood",ylim=c(0,15)) # true
 lines(xx,pz, lty=2) # Euler
-
-sapply(xx, function(x) SIMloglik(X,c(x,4),B,S,M=10000,N=2)) -> pw
 lines(xx,pw, lty=3) # Simulated
 }}
 \keyword{ts}
