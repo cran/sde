@@ -1,3 +1,6 @@
+Changes from sde_1.9.13 to sde_1.9.14:
+1.	added gmm function
+
 Changes from sde_1.9.11 to sde_1.9.13:
 1.	fixed .Rd issues
 2.	fixed SIMloglik and cdSim algorithms

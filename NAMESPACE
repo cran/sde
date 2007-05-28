@@ -41,6 +41,8 @@ export(SIMloglik)
 export(simple.ef)
 export(simple.ef2)
 export(linear.mart.ef)
+# GMM
+export(gmm)
 
 
 
