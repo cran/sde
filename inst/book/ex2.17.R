@@ -1,30 +1,47 @@
 # ex2.17.R
-# Ornstein-Uhlenbeck process
-set.seed(123)
-d <- expression(-5 * x)
-s <- expression(3.5) 
-sde.sim(X0=10,drift=d, sigma=s) -> X
-plot(X,main="Ornstein-Uhlenbeck")
+require(sde)
 
-# Multiple trajectories of the O-U process
+drift <- expression((3-x))
+sigma <- expression(1.2*sqrt(x))
+a <- 1.7
+b <- 0.5
 set.seed(123)
-sde.sim(X0=10,drift=d, sigma=s, M=3) -> X
-plot(X,main="Multiple trajectories of O-U")
+Y1 <- sde.sim(X0=a, drift=drift, sigma=sigma, T=1, delta=0.01)
+Y2 <- sde.sim(X0=b, drift=drift, sigma=sigma, T=1, delta=0.01)
+Y3 <- ts(rev(Y2), start=start(Y2), end=end(Y2),deltat=deltat(Y2))
 
-# Cox-Ingersoll-Ross process
-# dXt = (6-3*Xt)*dt + 2*sqrt(Xt)*dWt
+
+id1 <- Inf
+if(Y1[1]>=Y3[1]){
+ if(!all(Y1>Y3))
+  min(which(Y1 <= Y3))-1 -> id1
+} else {
+ if(!all(Y1<Y3))
+ min(which(Y1 >= Y3))-1 -> id1
+}
+if(id1==0 || id1==length(Y1)) id1 <- Inf
+
+par(mar=c(3,3,1,1))
+par(mfrow=c(2,1)) 
+plot(Y1, ylim=c(min(Y1,Y2), max(Y1,Y2)),col="green",lty=2)
+lines(Y3,col="blue",lty=3)
+
+if(id1==Inf ){
+ cat("no crossing")
+} else {
+ plot(Y1, ylim=c(min(Y1,Y2), max(Y1,Y2)),col="green",lty=2)
+lines(Y3,col="blue",lty=3)
+B <- ts(c(Y1[1:id1], Y3[-(1:id1)]), start=start(Y1),end=end(Y1),frequency=frequency(Y1))
+lines(B,col="red",lwd=2)
+}
+
+# ex2.17.R (cont.)
+d <- expression((3-x))
+s <- expression(1.2*sqrt(x))
+par(mar=c(3,3,1,1))
+par(mfrow=c(2,1)) 
 set.seed(123)
-d <- expression( 6-3*x ) 
-s <- expression( 2*sqrt(x) ) 
-sde.sim(X0=10,drift=d, sigma=s) -> X
-plot(X,main="Cox-Ingersoll-Ross")
-
-# Cox-Ingersoll-Ross using the conditional distribution "rcCIR"
-
-set.seed(123)
-sde.sim(X0=10, theta=c(6, 3, 2), rcdist=rcCIR, method="cdist") -> X
-plot(X, main="Cox-Ingersoll-Ross")
-
-set.seed(123)
-sde.sim(X0=10, theta=c(6, 3, 2), model="CIR") -> X
-plot(X, main="Cox-Ingersoll-Ross")
+X <- DBridge(x=1.7,y=0.5, delta=0.01, drift=d, sigma=s)
+plot(X)
+X <- DBridge(x=1,y=5, delta=0.01, drift=d, sigma=s)
+plot(X)

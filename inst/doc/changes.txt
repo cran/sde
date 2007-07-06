@@ -1,3 +1,7 @@
+Changes from sde_1.9.14 to sde_1.9.16:
+1.	added DBridge function
+2.	updated examples
+
 Changes from sde_1.9.13 to sde_1.9.14:
 1.	added gmm function
 

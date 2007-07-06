@@ -33,6 +33,8 @@ export(dcSim)
 export(BM)
 export(GBM)
 export(BBridge)
+# Diffusion bridges
+export(DBridge)
 # likelihood related
 export(HPloglik)
 export(EULERloglik)
