@@ -1,3 +1,7 @@
+Changes from sde_1.9.16 to sde_1.9.18:
+1.	added ksdrift, ksdiff and ksdens functions
+2.	added examples to chapter 4
+
 Changes from sde_1.9.14 to sde_1.9.16:
 1.	added DBridge function
 2.	updated examples
