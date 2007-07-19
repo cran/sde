@@ -131,7 +131,7 @@ SEXP sde_sim_euler(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
 {
   SEXP X, Y1, Y2;
   double  *rY1, *rY2, T1, T2, *rX;
-  double DELTA, ETA, ALPHA, *tm;
+  double DELTA, ETA, ALPHA;
   double sdt, Z, tmp, d1, d2, *rx0;
   Rboolean CORR;
   int i, n, j, m;
@@ -479,7 +479,7 @@ SEXP sde_sim_ozaki(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
                       SEXP d, SEXP dx, SEXP s, SEXP rho)
 {
   double T, DELTA, *rX, *rx0;
-  double sdt, Z, tmp, D, Dx, S, Ex, Vx, Kx;
+  double tmp, D, Dx, S, Ex, Vx, Kx;
   int i, n, j, m;
   SEXP X;
   
@@ -537,7 +537,7 @@ SEXP sde_sim_shoji(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
                       SEXP d, SEXP dx, SEXP dxx, SEXP dt, SEXP s, SEXP rho)
 {
   double T, DELTA, *rX, *rx0;
-  double sdt, Z, tmp, D, Dx, Dxx, Dt, S, Ex, Vx, Mx;
+  double tmp, D, Dx, Dxx, Dt, S, Ex, Vx, Mx;
   int i, n, j, m;
   SEXP X;
   
@@ -653,7 +653,7 @@ SEXP HPloglik(SEXP delta, SEXP X, SEXP theta, SEXP M0, SEXP M1,
                   SEXP M2, SEXP M3, SEXP M4, SEXP M5, SEXP M6, 
 				  SEXP F, SEXP S, SEXP rho){
  double f, y0, Delta;
- double sd, ssd, z;
+ double sd, ssd;
  double mu0, mu1, mu2, mu3, mu4, mu5, mu6;
  double val=0.0;
  int i, n;
@@ -738,7 +738,7 @@ SEXP EULERloglik(SEXP delta, SEXP X, SEXP theta, SEXP d, SEXP s, SEXP rho){
 
 SEXP dcSim(SEXP X, SEXP Y, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP M, SEXP rho){
  double Delta, sd, tmp, tmp1, x1, x2, z;
- int i, j, k, m;
+ int i, k, m;
  double x, y;
  int NN, MM;
  SEXP ans;
@@ -804,7 +804,7 @@ SEXP dcSim(SEXP X, SEXP Y, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP 
 
 SEXP SIMloglik(SEXP X, SEXP delta, SEXP d, SEXP s, SEXP theta, SEXP N, SEXP M, SEXP rho){
  double Delta, sd, tmp, tmp1, x1, x2, z;
- int h, i, j, k, m, n;
+ int h, i, k, m, n;
  double *x, val;
  int NN, MM;
  SEXP ans;

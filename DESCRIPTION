@@ -1,7 +1,7 @@
 Package: sde
 Type: Package
 Title: Simulation and Inference for Stochastic Differential Equations
-Version: 1.9.20
+Version: 1.9.21
 Date: 2007-07-19
 Author: Stefano Maria Iacus
 Depends: MASS, stats4
@@ -11,4 +11,4 @@ Description: Companion package to the book `Simulation and Inference for
              preliminary draft. Don't count too much on it until the book has
              been published.
 License: GPL Version 2 or later.
-Packaged: Thu Jul 19 13:37:55 2007; hornik
+Packaged: Fri Jul 20 11:05:34 2007; hornik

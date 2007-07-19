@@ -1,4 +1,8 @@
-Changes from sde_1.9.18 to sde_1.9.19:
+Changes from sde_1.9.20 to sde_1.9.21:
+1.	remove unsued variables in C code
+2.	removed offending file in R directory
+
+Changes from sde_1.9.18 to sde_1.9.20:
 1.	added cpoint function
 2.	added examples in chapter 4
 3.	added DWJ dataset
