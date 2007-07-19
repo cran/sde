@@ -49,6 +49,9 @@ export(gmm)
 export(ksdrift)
 export(ksdiff)
 export(ksdens)
+# changepoint
+export(cpoint)
+
 
 
 

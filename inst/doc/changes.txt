@@ -1,3 +1,8 @@
+Changes from sde_1.9.18 to sde_1.9.19:
+1.	added cpoint function
+2.	added examples in chapter 4
+3.	added DWJ dataset
+
 Changes from sde_1.9.16 to sde_1.9.18:
 1.	added ksdrift, ksdiff and ksdens functions
 2.	added examples to chapter 4
