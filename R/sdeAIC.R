@@ -28,11 +28,13 @@ sdeAIC <- function(X, theta, b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, ...){
 	g <- function(x,y) -0.5*( C1(x) + C1(y) + B(x,theta)*B(y,theta)/3)
 	h <- function(x) B(x,theta)/s(x,theta)
 	if(missing(H))
-	 H <- function(x,y) integrate(h, x, y)$value
+	 H <- function(x,y)
+		sapply(1:length(x), function(i) integrate(h, x[i], y[i])$value) 
 	s1 <- function(x) 1/s(x,theta)
 	if(missing(S))
-	 S <- function(x,y) integrate(s1, x, y)$value   
-
+	 S <- function(x,y) 
+	  sapply(1:length(x), function(i) integrate(s1, x[i], y[i])$value)
+	 
     	u <- function(x,y,theta) (-0.5*log(2*pi*DELTA) - log(s(y,theta)) 
 	    - S(x,y)^2/(2*DELTA)  + H(x,y) + DELTA*g(x,y))
 	cat("AIC value:\n")

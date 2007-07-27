@@ -1,4 +1,9 @@
 Changes from sde_1.9.32 to sde_2.0.0:
+	fixed code for sdeAIC. Vectorization was failing.
+ 
+# 2.0.0 corresponds to first print of the book
+
+Changes from sde_1.9.32 to sde_2.0.0:
 	Latest version before printing (?)
 	All the code of this version coincide 
 	with the content of the book
