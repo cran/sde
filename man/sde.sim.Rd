@@ -8,10 +8,10 @@ differential equations.
 \usage{
 sde.sim(t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma, 
     drift.x, sigma.x, drift.xx, sigma.xx, drift.t, method = c("euler", 
-        "milstein", "KPS", "milstein2", "cdist","ozaki","shoji","EA"), 
-		alpha = 0.5, eta = 0.5, pred.corr = T, rcdist = NULL, theta = NULL,
-	     model = c("CIR", "VAS", "OU", "BS"),
-	    k1, k2, phi, max.psi = 1000, rh, A, M=1)
+	"milstein", "KPS", "milstein2", "cdist","ozaki","shoji","EA"), 
+	alpha = 0.5, eta = 0.5, pred.corr = T, rcdist = NULL, theta = NULL,
+	model = c("CIR", "VAS", "OU", "BS"),
+	k1, k2, phi, max.psi = 1000, rh, A, M=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

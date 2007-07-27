@@ -1,3 +1,9 @@
+Changes from sde_1.9.22 to sde_1.9.23:
+1.	added sdeAIC
+
+Changes from sde_1.9.21 to sde_1.9.22:
+1.	added examples to chapters 1 and 4
+
 Changes from sde_1.9.20 to sde_1.9.21:
 1.	remove unsued variables in C code
 2.	removed offending file in R directory

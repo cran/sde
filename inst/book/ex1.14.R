@@ -1,15 +1,15 @@
 # ex1.14.R
-W <- BM()
-t <- time(W)
-N <- length(t)
-x <- 10
-theta <- 5
-sigma <- 3.5
-X <- numeric(N)
-X[1] <- x
-ito.sum <- c(0, sapply(2:N, function(x) { 
-   exp(-theta*(t[x]-t[x-1])) * (W[x]-W[x-1])} ) )
-X <- sapply(1:N, function(x)  {X[1]*exp(-theta*t[x]) + 
-    sum(ito.sum[1:x])} )
-X <- ts(X,start=start(W), deltat=deltat(W))
-plot(X,main="Ornstein-Uhlenbeck process")
+set.seed(123)
+par("mar"=c(3,2,1,1))
+par(mfrow=c(2,1))
+npaths <- 30
+N <- 1000
+sigma <- 0.5
+nu <- -0.7
+X <- sde.sim(drift=expression(0),sigma=expression(0.5), pred=F, N=N,M=npaths) 
+Y <- X + nu*time(X)
+girsanov <- exp(0.25 * (-nu/sigma*X[N,] - 0.5*(nu/sigma)^2))
+girsanov <- (girsanov - min(girsanov)) / diff(range(girsanov))
+col.girsanov <- gray(girsanov)
+matplot(time(X),Y,type="l",lty=1, col="black",xlab="t")
+matplot(time(X),Y,type="l",lty=1,col=col.girsanov,xlab="t")

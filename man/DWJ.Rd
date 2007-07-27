@@ -11,14 +11,6 @@ is that a change in the variance occurred around the
 third week of March 1973. 
 }
 \usage{data(DWJ)}
-\format{
-  The format is:
- ts [1:162, 1] 890 902 889 888 858 ...
- - attr(*, "dimnames")=List of 2
-  ..$ : NULL
-  ..$ : chr "DWJ"
- - attr(*, "tsp")= num [1:3] 1971 1974   52
-}
 \references{
 Hsu, D.A. (1977) Tests for variance shift at an unknown time point, \emph{Appl. Statist.}, 26(3), 279-284.
 

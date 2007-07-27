@@ -62,8 +62,9 @@ plot(X)
 
 u <- function(x, y, theta){
   c.mean <- theta[1]/theta[2] + (y-theta[1]/theta[2])*exp(-theta[2]*DELTA)
-  c.var <- ((y*theta[3]^2 * (exp(-theta[2]*DELTA)-exp(-2*theta[2]*DELTA))/theta[2] +  
-				+theta[1]*theta[3]^2*(1-exp(-2*theta[2]*DELTA))/(2*theta[2]^2)))  
+  c.var <- ((y*theta[3]^2 * 
+     (exp(-theta[2]*DELTA)-exp(-2*theta[2]*DELTA))/theta[2] +  
+	+theta[1]*theta[3]^2*(1-exp(-2*theta[2]*DELTA))/(2*theta[2]^2)))  
   cbind(x-c.mean,y*(x-c.mean), c.var-(x-c.mean)^2, y*(c.var-(x-c.mean)^2))  
 }
 

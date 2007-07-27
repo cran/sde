@@ -51,6 +51,8 @@ export(ksdiff)
 export(ksdens)
 # changepoint
 export(cpoint)
+# AIC
+export(sdeAIC)
 
 
 
