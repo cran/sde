@@ -1,7 +1,7 @@
 \name{cpoint}
 \alias{cpoint}
 \title{Volatility change point estimator for diffusion processes}
-\description{Volatility change point estimator for diffusion processes based on leasts squaares}
+\description{Volatility change point estimator for diffusion processes based on leasts squares}
 \usage{
 cpoint(x, mu, sigma)
 }

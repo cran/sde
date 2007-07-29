@@ -1,31 +1,19 @@
-require(sde)
 # ex4.01.R
 set.seed(123)
-theta <- c(6,2,1)
-X <- sde.sim(X0 = rsCIR(1, theta), model="CIR", theta=theta,N=1000,delta=1)
-f <-function(x) dsCIR(x, theta)
 
-h <- length(X)^(-1/5)*sd(X) 
-K <-function(x) exp(-0.5*x^2)/sqrt(2*pi)
-p <-function(x) sapply(x, function(x) mean(K((x-X)/h)))/h
+dri <- expression(-(x-10))
+dif <- expression(2*sqrt(x)) 
+sde.sim(X0=10,drift=dri, sigma=dif,N=1000,delta=0.1) -> X
 
-curve(f,0,8,ylim=c(0,0.7))
-curve(p,0,8, col="red", add=TRUE,lty=2)
-lines(density(X,bw=h),col="green",lty=3)
-  
-# ex4.01.R (cont)
-set.seed(123)
-X <- sde.sim(X0 = rsCIR(1, theta), model="CIR", theta=theta,N=1000,delta=0.01)
-h <- length(X)^(-1/5)*sd(X) 
-curve(f,0,8,ylim=c(0,0.7))
-curve(p,0,8, col="red", add=TRUE,lty=2)
+b <- function(x,theta) -theta[1]*(x-theta[2])
+b.x <- function(x,theta)  -theta[1]+0*x
 
-# ex4.01.R (cont)
-set.seed(123)
-X <- sde.sim(X0 = rsCIR(1, theta), model="CIR", theta=theta,N=15000,delta=0.01)
-h <- length(X)^(-1/5)*sd(X) 
-curve(f,0,8,ylim=c(0,0.7))
-curve(p,0,8, col="red", add=TRUE,lty=2)
+s <- function(x,theta) theta[3]*sqrt(x)
+s.x <- function(x,theta) theta[3]/(2*sqrt(x))
+s.xx <- function(x,theta) -theta[3]/(4*x^1.5)
 
+# we let sdeAIC calculate the estimates and the AIC statistics
+sdeAIC(X, NULL, b, s, b.x, s.x, s.xx, guess=c(1,1,1),
+            lower=rep(1e-3,3), method="L-BFGS-B")
 
 

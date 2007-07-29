@@ -1,20 +1,25 @@
 require(sde)
 # ex4.04.R
-tau0 <- 0.6
-k0 <- ceiling(1000*tau0)
 set.seed(123)
-X1 <- sde.sim(X0=1, N=2*k0, t0=0, T=tau0, model="CIR", theta=c(6,2,1))
-X2 <- sde.sim(X0=X1[2*k0+1], N=2*(1000-k0), t0=tau0, T=1, model="CIR", theta=c(6,2,3))
+theta <- c(6,2,1)
+X <- sde.sim(X0 = rsCIR(1, theta), model="CIR", theta=theta,N=1000,delta=0.1)
 
-Y <- ts(c(X1,X2[-1]), start=0, deltat=deltat(X1))
-X <- window(Y,deltat=0.01) 
-DELTA <- deltat(X)
-n <- length(X)
+f <-function(x) dsCIR(x, theta)
+b <- function(x) theta[1]-theta[2]*x
+sigma <- function(x) theta[3]*sqrt(x)
+  
+minX <- min(X)
+maxX <- max(X)
 
-mu <- function(x) 6-2*x
-sigma <- function(x) sqrt(x)
+par(mfrow=c(2,1))
+curve(b,minX,maxX,main="drift coefficient")
+lines(ksdrift(X),lty=3,col="red",lwd=2)
 
-cpoint(X,mu,sigma)
+curve(sigma,minX, maxX,main="diffusion coefficient")
+lines(ksdiff(X),lty=3,col="red",lwd=2)
 
-# nonparametric estimation of the drift
-cpoint(X)
+ 
+ 
+ 
+ 
+ 

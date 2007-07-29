@@ -1,3 +1,6 @@
+Changes from sde_1.9.23 to sde_1.9.24:
+1. 	added minimum contrast estimation in sdeAIC
+
 Changes from sde_1.9.22 to sde_1.9.23:
 1.	added sdeAIC
 
