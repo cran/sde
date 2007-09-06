@@ -24,9 +24,6 @@ coefficients with arguments \code{(t,x,theta)}.
   \item{x}{a number}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 set.seed(123)
 d <- expression(-1*x)

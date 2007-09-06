@@ -36,9 +36,6 @@ Ait-Sahalia, Y. (1996) Testing Continuous-Time Models of the Spot Interest Rate,
 \emph{Review of Financial Studies}, 9(2), 385-426.
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 set.seed(123)
 d <- expression(-1*x)

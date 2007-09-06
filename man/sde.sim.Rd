@@ -15,32 +15,32 @@ sde.sim(t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{t0}{time origin}
-  \item{T}{horizon of simulation}
-  \item{X0}{initial value of the process}
-  \item{N}{number of simulation steps}
-  \item{M}{number of trajectories}
-  \item{delta}{time-step of the simulation}
-  \item{drift}{drift coeffcient: a expression of two variables \code{t} and \code{x}}
-  \item{sigma}{diffusion coeffcient: a expression of two variables \code{t} and \code{x}}
-  \item{drift.x}{partial derivative of drift coeffcient wrt to \code{x}: a function of two variables \code{t} and \code{x}}
-  \item{sigma.x}{partial derivative of diffusio coefficient wrt to \code{x}: a function of two variables \code{t} and \code{x}}
-  \item{drift.xx}{second partial derivative of drift coefficient wrt to \code{x}: a function of two variables \code{t} and \code{x}}
-  \item{sigma.xx}{second partial derivative of diffusion coefficient wrt to \code{x}: a function of two variables \code{t} and \code{x}}
-  \item{drift.t}{partial derivative of drift coefficient wrt to \code{t}: a function of two variables \code{t} and \code{x}}
-  \item{method}{method of simulation, see details}
-  \item{alpha}{weight \code{alpha} of the predictor-corrector scheme}
-  \item{eta}{weight \code{eta} of the predictor-corrector scheme}
+  \item{t0}{time origin.}
+  \item{T}{horizon of simulation.}
+  \item{X0}{initial value of the process.}
+  \item{N}{number of simulation steps.}
+  \item{M}{number of trajectories.}
+  \item{delta}{time-step of the simulation.}
+  \item{drift}{drift coeffcient: a expression of two variables \code{t} and \code{x}.}
+  \item{sigma}{diffusion coeffcient: a expression of two variables \code{t} and \code{x}.}
+  \item{drift.x}{partial derivative of drift coeffcient wrt to \code{x}: a function of two variables \code{t} and \code{x}.}
+  \item{sigma.x}{partial derivative of diffusio coefficient wrt to \code{x}: a function of two variables \code{t} and \code{x}.}
+  \item{drift.xx}{second partial derivative of drift coefficient wrt to \code{x}: a function of two variables \code{t} and \code{x}.}
+  \item{sigma.xx}{second partial derivative of diffusion coefficient wrt to \code{x}: a function of two variables \code{t} and \code{x}.}
+  \item{drift.t}{partial derivative of drift coefficient wrt to \code{t}: a function of two variables \code{t} and \code{x}.}
+  \item{method}{method of simulation, see details.}
+  \item{alpha}{weight \code{alpha} of the predictor-corrector scheme.}
+  \item{eta}{weight \code{eta} of the predictor-corrector scheme.}
   \item{pred.corr}{boolean: wheter to apply the predictor-correct adjustment. See details.}
   \item{rcdist}{a function which is a random number generator from the conditional distribution of the process. See details.}
   \item{theta}{vector of parameters for \code{cdist}. See details.}
   \item{model}{model from which to simulate. See details.}
   \item{k1}{lower bound for \code{psi(x) = 0.5*drift(x)^2 + 0.5*drift.x(x)}. See details.}
   \item{k2}{upper bound for \code{psi(x) = 0.5*drift(x)^2 + 0.5*drift.x(x)}. See details.}
-  \item{phi}{the function \code{psi(x) - k1}}
-  \item{max.psi}{upper value of the support of \code{psi} to search for its maximum}
+  \item{phi}{the function \code{psi(x) - k1}.}
+  \item{max.psi}{upper value of the support of \code{psi} to search for its maximum.}
   \item{rh}{the rejection function. Seed details.}
-  \item{A}{\code{A(x)} is the integral of the \code{drift} between \code{0} and \code{x}}
+  \item{A}{\code{A(x)} is the integral of the \code{drift} between \code{0} and \code{x}.}
 }
 \details{
 The function returns a \code{ts} object of length \code{N+1}, i.e. \code{X0} and
@@ -57,10 +57,10 @@ If any of \code{drift.x}, \code{drift.xx}, \code{drift.t},
 \code{sigma.x} and \code{sigma.xx} are not specified,
 then numerical derivation is attempted when needed.
 
-If \code{sigma} is not specified, it is assumed to the constant function \code{1}
+If \code{sigma} is not specified, it is assumed to be the constant function \code{1}
 
 The \code{method} of simulation can be one among: \code{euler}, \code{milstein},
-\code{milstein2}, \code{KPS}, \code{cdist}, \code{ozaki} and \code{shoji}. 
+\code{milstein2}, \code{KPS}, \code{cdist}, \code{EA}, \code{ozaki} and \code{shoji}. 
 No assumption on the coefficients or on \code{cdist} is checked: the user is 
 responbile for using the right method for the process object of simulation.
 
@@ -83,9 +83,6 @@ as \code{A}, \code{rh} and \code{phi} are calculated numerically by the function
 }
 \references{See Chapter 2 of the book}
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book `Simulation and Inference
-for Stochastic Differential Equation, Springer, NY.
-}
 \examples{
 # Ornstein-Uhlenbeck process
 set.seed(123)

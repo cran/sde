@@ -1,7 +1,7 @@
 \name{sdeAIC}
 \alias{sdeAIC}
-\title{Akaike's Infromation Criterion for diffusion processes}
-\description{Implementation of the AIC statistics for diffuzion processes.
+\title{Akaike's Information Criterion for diffusion processes}
+\description{Implementation of the AIC statistics for diffusion processes.
 }
 \usage{
 sdeAIC(X, theta, b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, ...)
@@ -9,13 +9,13 @@ sdeAIC(X, theta, b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, ...)
 \arguments{
   \item{X}{a ts object containg a sample path of a sde.}
   \item{theta}{a vector or estimates of the parameters.}
-  \item{b}{drift coefficient of the model as a function of \code{x} and \code{theta}}
-  \item{s}{diffusion coefficient of the model as a function of \code{x} and \code{theta}}
-  \item{b.x}{partial derivative of \code{b} as a function of \code{x} and \code{theta}}
-  \item{s.x}{partial derivative of \code{s} as a function of \code{x} and \code{theta}}
-  \item{s.xx}{second order partial derivative of \code{s} as a function of \code{x} and \code{theta}}
+  \item{b}{drift coefficient of the model as a function of \code{x} and \code{theta}.}
+  \item{s}{diffusion coefficient of the model as a function of \code{x} and \code{theta}.}
+  \item{b.x}{partial derivative of \code{b} as a function of \code{x} and \code{theta}.}
+  \item{s.x}{partial derivative of \code{s} as a function of \code{x} and \code{theta}.}
+  \item{s.xx}{second order partial derivative of \code{s} as a function of \code{x} and \code{theta}.}
   \item{B}{initial value of the parameters. See details.}
-  \item{B.x}{partial deriivative of \code{B} as a function of \code{x} and \code{theta}}
+  \item{B.x}{partial deriivative of \code{B} as a function of \code{x} and \code{theta}.}
   \item{H}{function of \code{(x,y)}. It is the integral of \code{B/s}. Optional.}
   \item{S}{function of \code{(x,y)}. It is the integral of \code{1/s}. Optional.}
   \item{guess}{intial value for the parameters to be estimated. Optional.}
@@ -53,9 +53,6 @@ Mathematics, Kyushu University, Fukuoka, Japan}.
   \item{x}{the value of the AIC statistics}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 set.seed(123)
 # true model generating data

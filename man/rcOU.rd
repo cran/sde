@@ -5,7 +5,7 @@
 \alias{qcOU}
 \title{Ornstein-Uhlenbeck or Vasicek process conditional law}
 \description{Density, distribution function, quantile function and 
-random generation for the conditional law Xt+Dt|Xt=x0 of the Ornstein-Uhlenbeck process
+random generation for the conditional law \code{X(t+Dt) | X(t)=x0} of the Ornstein-Uhlenbeck process
 also known as Vasicek process}
 \usage{
 dcOU(x, Dt, x0, theta, log = FALSE)
@@ -16,13 +16,13 @@ rcOU(n=1, Dt, x0, theta)
 \arguments{
   \item{x}{vector of quantiles.}
   \item{p}{vector of probabilities.}
-  \item{Dt}{lag or time}
+  \item{Dt}{lag or time.}
   \item{x0}{the value of the process at time \code{t}. See details.}
   \item{theta}{parameter of the Ornstein-Uhlenbeck process. See details.}
   \item{n}{number of random numbers to generate from the conditional distribution.}
   \item{log, log.p}{logical; if TRUE, probabilities p are given as log(p).}
-  \item{lower.tail}{logical; if TRUE (default), probabilities are P[X <= x], 
-  otherwise, P[X > x].}
+  \item{lower.tail}{logical; if TRUE (default), probabilities are \code{P[X <= x]}, 
+  otherwise, \code{P[X > x]}.}
 }
 \details{
 This function returns quantities related to the conditional law
@@ -42,9 +42,6 @@ Please note that the process is stationary only if \code{theta[2]>0}.
 Vasicek, O. (1977) An Equilibrium Characterization of the Term 
 Structure, \emph{Journal of Financial Economics},  5, 177-188. }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \seealso{\code{\link{rsOU}}}
 \examples{
 rcOU(n=1, Dt=0.1, x0=1, theta=c(0,2,1))

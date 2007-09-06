@@ -5,11 +5,11 @@ sdeAIC <- function(X, theta, b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, ...){
 	if(missing(theta) || is.null(theta)){
 	 if(missing(guess))
 	  stop("cannot estimate the model. Specify initial guess values for theta")
-	 g <- function(theta,X,drift,sigma){
+	 g1 <- function(theta,X,drift,sigma){
       sum(log(sigma(X[-n],theta) + (diff(X)-DELTA*drift(X[-n],theta))^2/(2*DELTA*sigma(X[-n],theta)^2)))
      }
 	 cat("estimating the model...\n")
-	 est <- optim(guess,g,drift=b,sigma=s,X=X,...)
+	 est <- optim(guess,g1,drift=b,sigma=s,X=X,...)
 	theta <- est$par
 	print(theta)
 	}

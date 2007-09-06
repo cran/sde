@@ -9,12 +9,12 @@ parameters of a process solution of that particular stochastic differential equa
 simple.ef2(X, drift, sigma, h, h.x, h.xx, guess, lower, upper) 
 }
 \arguments{
-  \item{X}{a ts object containg a sample path of a sde.}
+  \item{X}{a \code{ts} object containg a sample path of a sde.}
   \item{drift}{an expression for the drift coefficient. See details.}
   \item{sigma}{an expression for the diffusion coefficient. See details.}
-  \item{h}{an expressions of `x' and the parameters to be estimated. See details.}
-  \item{h.x}{an expressions of `x' containing the first derivative of \code{h}. See details.}
-  \item{h.xx}{an expressions of `x' containing the second derivative of \code{h}. See details.}
+  \item{h}{an expressions of \code{x} and the parameters to be estimated. See details.}
+  \item{h.x}{an expressions of \code{x} containing the first derivative of \code{h}. See details.}
+  \item{h.xx}{an expressions of \code{x} containing the second derivative of \code{h}. See details.}
   \item{guess}{initial value of the parameters. See details.}
   \item{lower}{lower bounds for the parameters. See details.}
   \item{upper}{upper bounds for the parameters. See details.}
@@ -39,9 +39,6 @@ Diffusion Process, \emph{Scand. J. Statist.}, 27, 65-82.
   \item{x}{a vector of estimates}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 set.seed(123) 
 d <- expression(10 - x)

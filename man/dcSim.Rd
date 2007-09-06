@@ -2,14 +2,14 @@
 \alias{dcSim}
 \title{Pedersen's Simulated transition density}
 \description{
-Simulated transition density X(t)|X(0)=x0 of a diffusion process based on
+Simulated transition density \code{X(t) | X(t0) = x0} of a diffusion process based on
 Pedersen's method}
 \usage{
 dcSim(x0, x, t, d, s, theta, M=10000, N=10, log=FALSE)
 }
 \arguments{
-  \item{x0}{the value of process at time \code{0}}
-  \item{x}{value in which to evaluate the conditional density}
+  \item{x0}{the value of process at time \code{0}.}
+  \item{x}{value in which to evaluate the conditional density.}
   \item{t}{lag or time.}
   \item{theta}{parameter of the process. See details.}
   \item{log}{logical; if TRUE, probabilities p are given as log(p).}
@@ -34,9 +34,6 @@ stochastic differential equations based on discrete observations,
 \emph{Scand. J. Statist.}, 22, 55-71.
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 \dontrun{
 d1 <- function(t,x,theta) theta[1]*(theta[2]-x)

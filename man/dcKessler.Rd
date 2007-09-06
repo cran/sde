@@ -2,7 +2,7 @@
 \alias{dcKessler}
 \title{Approximated conditional law of a diffusion process by Kessler's method}
 \description{
-Approximated conditional densities for X(t)|X(t0)=x0 of a diffusion process}
+Approximated conditional densities for \code{X(t) | X(t0) = x0} of a diffusion process}
 \usage{
 dcKessler(x, t, x0, t0, theta, d, dx, dxx, s, sx, sxx, log=FALSE) 
 }
@@ -29,7 +29,7 @@ This function returns the value of the conditional density of
 \code{X(t) | X(t0) = x0} at point \code{x}. 
 
 All the functions \code{d}, \code{dx}, \code{dxx}, \code{dt}, \code{s}, \code{sx} 
-and \code{sxx} must be functions of \code{t0}, \code{x0} and \code{theta}.
+and \code{sxx} must be functions of \code{t}, \code{x} and \code{theta}.
 }
 \value{
   \item{x}{a numeric vector}
@@ -38,9 +38,6 @@ and \code{sxx} must be functions of \code{t0}, \code{x0} and \code{theta}.
 \references{
 Kessler, M. (1997)  Estimation of an ergodic diffusion from discrete observations, 
 \emph{Scand. J. Statist.}, 24, 211-229.
-}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
 }
 \keyword{datagen}
 \keyword{ts}

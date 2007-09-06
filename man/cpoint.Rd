@@ -6,13 +6,13 @@
 cpoint(x, mu, sigma)
 }
 \arguments{
-  \item{x}{a \code{ts} object}
-  \item{mu}{a function of \code{x} describing the drift coefficient}
-  \item{sigma}{a function of \code{x} describing the diffusion coefficient}
+  \item{x}{a \code{ts} object.}
+  \item{mu}{a function of \code{x} describing the drift coefficient.}
+  \item{sigma}{a function of \code{x} describing the diffusion coefficient.}
 }
 \details{
-The function return a list of for elements containing the discrete \code{k0} and continuous \code{tau0}
-change point instant, the estimated volatilities before \code{theta1} and after \code{theta2} the time change.
+The function returns a list of  elements containing the discrete \code{k0} and continuous \code{tau0}
+change point instant, the estimated volatilities before (\code{theta1}) and after (\code{theta2}) the time change.
 The model is assumed to be of the following form
 
 \code{dXt = b(Xt)dt + theta*sigma(Xt)dWt}
@@ -29,9 +29,6 @@ and \code{b} is estimated nonparametrically.
   \item{X}{a list}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 tau0 <- 0.6
 k0 <- ceiling(1000*tau0)

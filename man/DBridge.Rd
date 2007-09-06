@@ -6,12 +6,12 @@
 DBridge(x=0, y=0, t0=0, T=1, delta, drift, sigma, ...)
 }
 \arguments{
-  \item{x}{intial value of the process at time \code{t0}}
-  \item{y}{terminal value of the process at time \code{T}}
+  \item{x}{intial value of the process at time \code{t0}.}
+  \item{y}{terminal value of the process at time \code{T}.}
   \item{t0}{initial time.}
-  \item{delta}{time-step of the simulation}
-  \item{drift}{drift coeffcient: a expression of two variables t and x}
-  \item{sigma}{diffusion coeffcient: a expression of two variables t and x}
+  \item{delta}{time-step of the simulation.}
+  \item{drift}{drift coeffcient: an expression of two variables \code{t} and \code{x}.}
+  \item{sigma}{diffusion coeffcient: an expression of two variables \code{t} and \code{x}.}
   \item{T}{final time.}
   \item{...}{passed to the \code{sde.sim} function}
 }
@@ -28,9 +28,6 @@ args \code{...}
   \item{X}{an invisible \code{ts} object}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \references{
 Bladt, M., Soerensen, M. (2007) Simple simulation of diffusion bridges 
 with application to likelihood inference for diffusions, mimeo.

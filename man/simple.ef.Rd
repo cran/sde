@@ -9,7 +9,7 @@ simple.ef(X, f, guess, lower, upper)
 }
 \arguments{
   \item{X}{a ts object containg a sample path of a sde.}
-  \item{f}{a list of expressions of `x' and/or `y' and the parameters to be estimated. See details.}
+  \item{f}{a list of expressions of \code{x} and/or \code{y} and the parameters to be estimated. See details.}
   \item{guess}{initial value of the parameters. See details.}
   \item{lower}{lower bounds for the parameters. See details.}
   \item{upper}{upper bounds for the parameters. See details.}
@@ -17,7 +17,7 @@ simple.ef(X, f, guess, lower, upper)
 \details{
 The function \code{simple.ef} minimizes a simple estimating function
 of the form \code{sum_i f_i(x,y;theta) = 0} or \code{sum_i f_i(x;theta)}
-as a function of \code{theta}. The index \code{i} varies in \code{\:length(theta)}.
+as a function of \code{theta}. The index \code{i} varies in \code{1:length(theta)}.
 
 The list \code{f} is a list of expressions in \code{x} or \code{(x,y)}.
 }
@@ -32,9 +32,6 @@ Kessler, M. (2000) Simple and Explicit Estimating Functions for a Discretely Obs
 Diffusion Process, \emph{Scand. J. Statist.}, 27, 65-82. 
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 set.seed(123); 
 # Kessler's estimator for O-H process

@@ -3,7 +3,7 @@
 \title{Pedersen's approximation of the likelihood}
 \description{Pedersen's approximation 
 of the likelihood of a process solution of a stochastic differential equation.
-These function is useful to calculate approximated maximum-likelihood estimators
+This function is useful to calculate approximated maximum-likelihood estimators
 when the transition density of the process is not known. It is computationally
 intensive.
 }
@@ -28,9 +28,6 @@ coefficients with arguments \code{(t,x,theta)}.
   \item{x}{a number}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \references{
 Pedersen, A. R. (1995) A new approach to maximum likelihood estimation for 
 stochastic differential equations based on discrete observations,

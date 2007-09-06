@@ -4,11 +4,11 @@
 \description{Implementation of the estimator of the Generalized Method of Moments by Hansen.
 }
 \usage{
-gmm(X, u, dim, guess, lower, upper,maxiter=30,tol1=1e-3,tol2=1e-3)
+gmm(X, u, dim, guess, lower, upper, maxiter=30, tol1=1e-3, tol2=1e-3)
 }
 \arguments{
   \item{X}{a ts object containg a sample path of a sde.}
-  \item{u}{a function of `x', `y' and `theta'. See details.}
+  \item{u}{a function of \code{x}, \code{y} and \code{theta}. See details.}
   \item{dim}{dimension of parameter space. See details.}
   \item{guess}{initial value of the parameters. See details.}
   \item{lower}{lower bounds for the parameters. See details.}
@@ -26,7 +26,7 @@ of the long-run covariance and the quadratic function
 \code{Q1(theta) = t(Gn(theta)) * W *  Gn(theta)} with starting value \code{theta1} (the solution
 at the first stage).  The second stage is iterated until the first of these
 conditions verifies: 1) number of iterations reaches \code{maxiter}; 2) euclidean
-distance between theta1 and theta2 < tol1; 3) \code{Q1 < tol2}. 
+distance between \code{theta1} and \code{theta2 < tol1}; 3) \code{Q1 < tol2}. 
 
 The function \code{u} must be a function of \code{(u,y,theta)} and should
 return a vector of the same length of the parameter space. The sanity checks
@@ -40,9 +40,6 @@ Hansen, L.P. (1982) Large Sample Properties of Generalized Method of Moments Est
   \item{x}{a list with parameter estimates, the value of \code{Q1} at the minimum, the Hessian}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 \dontrun{
 alpha <- 0.5

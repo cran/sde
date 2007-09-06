@@ -32,9 +32,6 @@ Bibby, B., Soerensen, M. (1995)  Martingale estimating functions for discretely
 observed diffusion processes,  \emph{Bernoulli}, 1, 17-39.
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \examples{
 set.seed(123)
 d <- expression(-1 * x)

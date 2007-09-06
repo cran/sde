@@ -3,7 +3,7 @@
 \alias{ksdiff}
 \alias{ksdens}
 \title{Nonparametric invariant density, drift and diffusion coefficient estimation.}
-\description{Implementation of siple Nadaraya-Watson nonparametric 
+\description{Implementation of simple Nadaraya-Watson nonparametric 
 estimation of drift and diffusion
 coefficient and plain kernel density estimation of the invariant density
 for a  one dimensional diffusion process.}
@@ -13,9 +13,9 @@ ksdiff(x, bw, n = 512)
 ksdens(x, bw, n = 512)
 }
 \arguments{
-  \item{x}{a \code{ts} object}
-  \item{bw}{bandwidth}
-  \item{n}{number of points in which to calculate the estimates}
+  \item{x}{a \code{ts} object.}
+  \item{bw}{bandwidth.}
+  \item{n}{number of points in which to calculate the estimates.}
 }
 \details{
 These functions return the nonparametric estimate of the drift or
@@ -35,9 +35,6 @@ is the number of observed points of the diffusion path.
   density estimation}
 }
 \author{Stefano Maria Iacus}
-\note{This package is a companion to the book \emph{Simulation and Inference
-for Stochastic Differential Equation}, Springer, NY.
-}
 \references{
 Ait-Sahalia, Y. (1996) Nonparametric pricing of interest rate 
 derivative securities, \emph{Econometrica}, 64, 527-560.
