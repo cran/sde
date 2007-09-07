@@ -89,7 +89,7 @@ sde.sim <- function (t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
     else {
         t <- c(t0, t0 + cumsum(rep(delta, N)))
         T <- t[N + 1]
-        warning("T set to =", T, "\n")
+        cat(sprintf("\nT set to = %f\n", T))
     }
     Dt <- (T - t0)/N
 
