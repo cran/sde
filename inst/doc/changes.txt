@@ -1,3 +1,7 @@
+Changes from sde_1.9.24 to sde_1.9.28:
+1. 	fixed documentation entries 
+2.	fixed example ex1.09
+
 Changes from sde_1.9.23 to sde_1.9.24:
 1. 	added minimum contrast estimation in sdeAIC
 

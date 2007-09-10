@@ -10,6 +10,6 @@ W <- sum(Z*sapply(1:n, function(x) phi(x,0.5,T)))
 for(i in Delta)
   Wh <- sum(Z*sapply(1:n, function(x) phi(x,0.5+i,T)))
 inc.ratio <- abs(Wh-W)/Delta
-plot(Delta,inc.ratio,type="l",log="y",xlab=expression(Delta[t]),
-     ylab=expression(abs(W(0.5+Delta[t])-W(0.5))/Delta[t]))
+plot(Delta,inc.ratio,type="l",log="y",xlab=expression(Delta*t),
+     ylab=expression(abs(W(0.5+Delta*t)-W(0.5))/Delta*t))
 max(inc.ratio,na.rm=T)
