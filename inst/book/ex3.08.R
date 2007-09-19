@@ -6,24 +6,24 @@ F <- function(t, x, theta) 2*sqrt(x)/theta[3]
 S <- function(t, x, theta) theta[3]*sqrt(x)
 
 M0 <- function(t, x, theta) 
- (2*theta[1]*theta[2]-0.5*theta[3]^2)/(2*x*theta[3]^2) - 0.5*theta[1]*x
+ (4*theta[1]*theta[2]-theta[3]^2)/(2*x*theta[3]^2) - 0.5*theta[1]*x
 M1 <- function(t, x, theta) 
- (1/x^2 + theta[1]*(-2-4*theta[2]/(x*theta[3])^2))/4
+ -0.5*theta[1]-(4*theta[1]*theta[2]-theta[3]^2)/(2*x^2*theta[3]^2)
 M2 <- function(t, x, theta) 
- (-1+4*theta[1]*theta[2]/theta[3]^2)/(2*x^3)
+ (4*theta[1]*theta[2]-theta[3]^2)/(x^3*theta[3]^2)
 M3 <- function(t, x, theta) 
- 3*(1-4*theta[1]*theta[2]/theta[3]^2)/(2*x^4)
+ -3*(4*theta[1]*theta[2]-theta[3]^2)/(x^4*theta[3]^2)
 M4 <- function(t, x, theta) 
- 6*(-1+4*theta[1]*theta[2]/theta[3]^2)/x^5
+ 12*(4*theta[1]*theta[2]-theta[3]^2)/(x^5*theta[3]^2)
 M5 <- function(t, x, theta) 
- 30*(-4*theta[1]*theta[2]+theta[3]^2)/(x^6*theta[3]^2)
+ -60*(4*theta[1]*theta[2]-theta[3]^2)/(x^6*theta[3]^2)
 M6 <- function(t, x, theta) 
- 180*(-1+4*theta[1]*theta[2]/theta[3]^2)/x^7
+ 360*(4*theta[1]*theta[2]-theta[3]^2)/(x^7*theta[3]^2)
 mu1 <- list(M0, M1, M2, M3, M4, M5, M6)
 
 # ex3.08.R (cont)
 # we now ask R to calculate derivatives
-m0 <- expression((2*theta1*theta2-0.5*theta3^2)/(2*x*theta3^2) - 0.5*theta1*x)
+m0 <- expression((4*theta1*theta2-theta3^2)/(2*x*theta3^2) - 0.5*theta1*x)
 
 params <- all.vars(m0)
 params <- params[-which(params=="x")]
@@ -95,7 +95,7 @@ mle(CIR.negloglik,lower=c(0.01,0.01,0.01),fixed=list(KAPPA=.4,SIGMA=.15),
 PAR <- coef(fit.CIR)
 PAR
 
-xx <- seq(0,0.5,length=100)
+xx <- seq(0.0858,0.086,length=100)
 sapply(xx, function(x) HPloglik(X, c(.4,x/.4,.15), mu1, F, S))-> px1
 sapply(xx, function(x) CIR.lik(x,.4,.15))-> px3
 pdf("approxCIR.pdf",width=5.6,height=2.5,pointsize=8)

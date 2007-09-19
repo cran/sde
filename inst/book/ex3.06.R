@@ -10,10 +10,10 @@ sx <- function(t,x,theta) theta[3]/(2*sqrt(x))
 sxx <- function(t,x,theta) -theta[3]/(4*x^1.5)
 
 d2 <- function(t,x,theta){
- (2*theta[1]-theta[3]^2)/(x*theta[3]^2) -theta[2]*x/2 }
+ (4*theta[1]-theta[3]^2)/(2*x*theta[3]^2) -theta[2]*x/2 }
 d2x <- function(t,x,theta){
- -theta[2]/2 - (2*theta[1]-theta[3]^2)/(x*theta[3])^2
-d2xx <- function(t,x,theta) 2*(2*theta[1]-theta[3]^2)/(x*theta[3])^2 }
+ -theta[2]/2 - (4*theta[1]-theta[3]^2)/(2*x^2*theta[3]^2)}
+d2xx <- function(t,x,theta) (4*theta[1]-theta[3]^2)/(x^3*theta[3]^2) 
 d2t <- function(t,x,theta) 0
 s2 <- function(t,x,theta)  1
 s2x <- function(t,x,theta) 0
@@ -80,7 +80,7 @@ for(dt in c(4, 2,1,.5)){
  matplot(xx,cbind(dTrue,dEuler,dOzaki,dShoji,dElerian),type="l",
   ylim=c(mn,mx),xlab="",ylab="approx", 
   main=sprintf("N=%d, Delta=%3.2f",n,dt),lty=1:5,col=1:5)
- legend(.15,0.6*(mx+mn), lty=1:5,col=1:5,
+ legend(.1,0.7*(mx+mn), lty=1:5,col=1:5,
   legend=c("True", "Euler", "Ozaki", "Shoji","Elerian"))
 
  tmp <- c(n, dt, optimize(pTrue, c(0.01,.4),maximum=T)$max,
