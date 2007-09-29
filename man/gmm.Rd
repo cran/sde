@@ -8,7 +8,7 @@ gmm(X, u, dim, guess, lower, upper, maxiter=30, tol1=1e-3, tol2=1e-3)
 }
 \arguments{
   \item{X}{a ts object containg a sample path of a sde.}
-  \item{u}{a function of \code{x}, \code{y} and \code{theta}. See details.}
+  \item{u}{a function of \code{x}, \code{y} and \code{theta} and \code{DELTA}. See details.}
   \item{dim}{dimension of parameter space. See details.}
   \item{guess}{initial value of the parameters. See details.}
   \item{lower}{lower bounds for the parameters. See details.}
@@ -28,7 +28,7 @@ at the first stage).  The second stage is iterated until the first of these
 conditions verifies: 1) number of iterations reaches \code{maxiter}; 2) euclidean
 distance between \code{theta1} and \code{theta2 < tol1}; 3) \code{Q1 < tol2}. 
 
-The function \code{u} must be a function of \code{(u,y,theta)} and should
+The function \code{u} must be a function of \code{(u,y,theta,DELTA)} and should
 return a vector of the same length of the parameter space. The sanity checks
 are left to the user.
 }
@@ -57,7 +57,7 @@ n <- length(X)
 X <- window(X, start=n*DELTA*0.5)
 plot(X)
 
-u <- function(x, y, theta){
+u <- function(x, y, theta, DELTA){
   c.mean <- theta[1]/theta[2] + (y-theta[1]/theta[2])*exp(-theta[2]*DELTA)
   c.var <- ((y*theta[3]^2 * 
      (exp(-theta[2]*DELTA)-exp(-2*theta[2]*DELTA))/theta[2] +  

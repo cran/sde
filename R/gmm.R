@@ -15,12 +15,13 @@ gmm <- function(X, u, dim, guess, lower, upper,maxiter=30,tol1=1e-3,tol2=1e-3){
    stop("Please specify dimension of parameter space")  
 
   H <-function(theta)
-   apply(u(X[2:n], X[1:(n-1)], theta), 2, mean)
+   apply(u(X[2:n], X[1:(n-1)], theta, DELTA), 2, mean)
 
   Q <-function(theta) sum(H(theta)^2)
 
   S <- function(j, theta)
-   (t(u(X[(j+2):n],X[(j+1):(n-1)], theta)) %*%  u(X[2:(n-j)],X[1:(n-j-1)], theta))/n
+   ( (t(u(X[(j+2):n],X[(j+1):(n-1)], theta, DELTA)) %*%  
+     u(X[2:(n-j)],X[1:(n-j-1)], theta, DELTA))/n )
  
   ell <- n-2
   w <- 1-(1:ell)/(ell+1) # Bartlet weights

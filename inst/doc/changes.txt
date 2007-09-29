@@ -1,3 +1,8 @@
+Changes from sde_1.9.31 to sde_1.9.32:
+1.	added examples: ex3.09 to ex3.15
+2.	fixed gmm function, now function
+	u must be a function of DELTA as well
+
 Changes from sde_1.9.29 to sde_1.9.31:
 1.	fixed code of example ex3.08
 

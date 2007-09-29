@@ -13,7 +13,7 @@ cp <- cpoint(ret)
 cp
 abline(v=cp$tau0,lty=3)
 
-# ex4.05.R (cont)
+# ex4.07.R (cont)
 cp <- cpoint(window(ret,end=cp$tau0))
 cp
 abline(v=cp$tau0,lty=3)
