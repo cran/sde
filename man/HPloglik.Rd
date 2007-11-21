@@ -4,29 +4,28 @@
 of the likelihood}
 \description{Ait-Sahalia Hermite polynomial expansion and Euler approximation 
 of the likelihood of a process solution of a stochastic differential equation.
-These functions are useful to calculate approximated maximum-likelihood estimators
+These functions are useful to calculate approximated maximum likelihood estimators
 when the transition density of the process is not known.
 }
 \usage{
 HPloglik(X, theta, M, F, s, log=TRUE)
 }
 \arguments{
-  \item{X}{a ts object containg a sample path of a sde.}
+  \item{X}{a ts object containing a sample path of an sde.}
   \item{theta}{vector of parameters.}
-  \item{M}{list of derivatives. See details.}
-  \item{F}{the transform function. See details.}
-  \item{s}{drift and diffusion coefficient. See details.}
+  \item{M}{list of derivatives; see details.}
+  \item{F}{the transform function; see details.}
+  \item{s}{drift and diffusion coefficient; see details.}
   \item{log}{logical; if TRUE, the log-likelihood is returned.}
 }
 \details{
-The function \code{HPloglik} returns Hermite-polynomial approximation of the
-likelihood of a diffusion process transformed to have unitary diffusion
-coefficient. The function \code{F} is the transform function and
-\code{s} is the original diffusion coefficients. The list of functions
-\code{M} contain the transformed drift in \code{M[[1]]} and the
-subsequent 6 derivatives in \code{x} of \code{M[[1]]}. The functions
-\code{F}, \code{s} and \code{M} have arguments \code{(t,x,theta)}.
-For more information see references.
+The function \code{HPloglik} returns the Hermite polynomial approximation of the
+likelihood of a diffusion process transformed to have a unitary diffusion
+coefficient. The function \code{F} is the transform function, and
+\code{s} is the original diffusion coefficient. The list of functions
+\code{M} contains the transformed drift in \code{M[[1]]} and the
+subsequent six derivatives in \code{x} of \code{M[[1]]}. The functions
+\code{F}, \code{s}, and \code{M} have arguments \code{(t,x,theta)}.
 }
 \value{
   \item{x}{a number}
@@ -59,7 +58,8 @@ true.loglik <- function(theta) {
  lik <- 0
  for(i in 2:length(X))
   lik <- lik + dnorm(X[i], mean=X[i-1]*exp(-theta[1]*DELTA), 
-   sd = sqrt((1-exp(-2*theta[1]*DELTA))*theta[2]/(2*theta[1])),TRUE)
+   sd = sqrt((1-exp(-2*theta[1]*DELTA))*theta[2]/
+             (2*theta[1])),TRUE)
  lik  
 }
 
@@ -67,7 +67,7 @@ xx <- seq(-3,3,length=100)
 sapply(xx, function(x) HPloglik(X,c(x,4),mu,F,S)) -> px
 sapply(xx, function(x) true.loglik(c(x,4))) -> py
 
-plot(xx,px,type="l",xlab=expression(beta),ylab="log-likelihood") # approx
+plot(xx,px,type="l",xlab=expression(beta),ylab="log-likelihood")
 lines(xx,py, lty=3) # true
 }
 \keyword{ts}

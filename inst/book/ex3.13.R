@@ -1,27 +1,22 @@
 require(sde)
-
-LS.est <- function(x) {
-  n <- length(x) -1
-  k.sum <- sum(x[1:n]*x[2:(n+1)])
-  dt <- deltat(x)
-  ifelse(k.sum>0, -log(k.sum/sum(x[1:n]^2))/dt, NA)
-}
-
 # ex3.13.R
-set.seed(123)
-d <- expression(-1 * x)
-s <- expression(1) 
-x0 <- rnorm(1,sd=sqrt(1/2))
-sde.sim(X0=x0,drift=d, sigma=s,N=1000,delta=0.1) -> X
- 
-d <- expression(-theta * x)
-  
-linear.mart.ef(X, d, s, a1=expression(-x), lower=0, upper=Inf,
-  c.mean=expression(x*exp(-theta*0.1)), 
-  c.var=expression((1-exp(-2*theta*0.1))/(2*theta)))
+set.seed(123) 
+d <- expression(10 - x)
+s <- expression(sqrt(x)) 
+x0 <- 10
+sde.sim(X0=x0,drift=d, sigma=s,N=1500,delta=0.1) -> X
 
+d <- expression(alpha + theta*x)
+s <- expression(x^gamma) 
+h <- list(expression(x), expression(x^2), expression(x^2))
+simple.ef2(X, d, s, h, lower=c(0,-Inf,0), upper=c(Inf,0,1))
 
-# the linear mart. e.f. coincides with the
-# least square estimator
-LS.est(X)
+# user defined guess
+simple.ef2(X, d, s, h, lower=c(0,-Inf,0), upper=c(Inf,0,1), 
+   guess=c(1,-.9,.7))
+
+# another guess
+simple.ef2(X, d, s, h, lower=c(0,-Inf,0), upper=c(Inf,0,1), 
+   guess=c(1,-1.2,.3))
+
 

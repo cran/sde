@@ -4,9 +4,9 @@
 \alias{psOU}
 \alias{qsOU}
 \title{Ornstein-Uhlenbeck or Vasicek process stationary law}
-\description{Density, distribution function, quantile function and 
+\description{Density, distribution function, quantile function, and 
 random generation for the stationary law of the Ornstein-Uhlenbeck process
-also known as Vasicek process}
+also known as the Vasicek process.}
 \usage{
 dsOU(x, theta, log = FALSE)
 psOU(x, theta, lower.tail = TRUE, log.p = FALSE) 
@@ -16,20 +16,20 @@ rsOU(n=1, theta)
 \arguments{
   \item{x}{vector of quantiles.}
   \item{p}{vector of probabilities.}
-  \item{theta}{parameter of the Ornstein-Uhlenbeck process. See details.}
+  \item{theta}{parameter of the Ornstein-Uhlenbeck process; see details.}
   \item{n}{number of random numbers to generate from the conditional distribution.}
-  \item{log, log.p}{logical; if TRUE, probabilities p are given as log(p).}
-  \item{lower.tail}{logical; if TRUE (default), probabilities are \code{P[X <= x]}, 
-  otherwise, \code{P[X > x]}.}
+  \item{log, log.p}{logical; if TRUE, probabilities \eqn{p}{p} are given as \eqn{\log(p)}{log(p)}.}
+  \item{lower.tail}{logical; if TRUE (default), probabilities are \code{P[X <= x]}; 
+  otherwise \code{P[X > x]}.}
 }
 \details{
 This function returns quantities related to the stationary law
 of the process solution of
-\code{dX_t = (theta[1]-theta[2]*Xt)*dt + theta[3]*dWt}.
+\deqn{{\rm d}X_t = (\theta_1-\theta_2 X_t){\rm d}t + \theta_3 {\rm d}W_t.}{dX_t = (theta[1]-theta[2]*Xt)*dt + theta[3]*dWt.}
 
-Contraints: \code{theta[2]>0, theta[3]>0}.
+Contraints: \eqn{theta_2>0, \theta_3>0}{theta[2]>0, theta[3]>0}.
 
-Please note that the process is stationary only if \code{theta[2]>0}.
+Please note that the process is stationary only if \eqn{\theta_2>0}{theta[2]>0}.
 }
 \value{
   \item{x}{a numeric vector}

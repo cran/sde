@@ -23,7 +23,7 @@ sde.sim <- function (t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
     if (missing(sigma)) 
         sigma <- expression(1)
     if (!is.expression(drift) || !is.expression(sigma)) 
-        stop("coefficients must be expressions in `t' an `x'")
+        stop("coefficients must be expressions in `t' and `x'")
     if (pred.corr == F) {
         alpha <- 0
         eta <- 0
@@ -82,7 +82,7 @@ sde.sim <- function (t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
     s1.xx <- function(t, x) eval(sigma.xx)
 
     if (t0 < 0 || T < 0) 
-        stop("please use positives times!")
+        stop("please use positive times!")
     if (missing(delta)) {
         t <- seq(t0, T, length = N + 1)
     }

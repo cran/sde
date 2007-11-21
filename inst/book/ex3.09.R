@@ -1,85 +1,94 @@
 require(sde)
-require(stats4)
-# ex3.09
-K.est <- function(x) {
-  n.obs <- length(x)
-  n.obs/(2*(sum(x^2)))
-}
-
-LS.est <- function(x) {
-  n <- length(x) -1
-  k.sum <- sum(x[1:n]*x[2:(n+1)])
-  dt <- deltat(x)
-  ifelse(k.sum>0, -log(k.sum/sum(x[1:n]^2))/dt, NA)
-}
-
-MLE.est <- function(y, lower=0, upper=Inf){
- n <- length(y) - 1
- Dt <- deltat(y)
- Y <- y[2:(n+1)]
- g <- function(theta){
-  ss <- sqrt((1-exp(-2*Dt*theta))/(2*theta))
-  X <- y[1:n]*exp(-theta*Dt)
-  lik <- dnorm(Y,mean=X,sd=ss)  
-  -sum(log(lik))
- } 
- tmp <- try(optim(runif(1), g, method="L-BFGS-B", lower=lower, upper=upper)$par) 
- if(class(tmp)=="try-error") tmp <- NA
- tmp
-}
-
-
-# ex3.09 (cont)
-theta0 <- 1
-d <- expression( -1*x ) 
-s <-  expression( 1 )
-
-K <- 1000 # 1000 MC replications
+# ex3.09.R
 
 set.seed(123)
-kessler <- matrix(NA,K,9)
-mle <- matrix(NA,K,9)
-simple <- matrix(NA,K,9)
- x0 <- rnorm(K,sd=sqrt(1/(2*theta0)))
- sde.sim(X0=x0, drift=d, sigma=s, N=50000, delta=0.1, M=K)->X
-for(k in 1:K){
- cat(".") 
- m <- 0
- for(Delta in c(0.4,1,5)){
-  m <- m+1
-  j <- 0
-  for(n in c(200,500,1000)){
-   j <- j+1
-   X.win <- window(X[,k], start=0, end=n*Delta, deltat=Delta)
-   kessler[k,m+3*(j-1)] <- K.est(X.win)
-   simple[k,m+3*(j-1)] <- LS.est(X.win)
-   mle[k,m+3*(j-1)] <- MLE.est(X.win)
-  }
- }
- cat(sprintf(" %3.3d / %3.3d completed\n",k,K))
+d <- expression(-1*x)
+s <- expression(2) 
+sde.sim(drift=d, sigma=s) -> X
+
+M0 <- function(t, x, theta) -theta[1]*x
+M1 <- function(t, x, theta) -theta[1]
+M2 <- function(t, x, theta) 0
+M3 <- function(t, x, theta) 0
+M4 <- function(t, x, theta) 0
+M5 <- function(t, x, theta) 0
+M6 <- function(t, x, theta) 0
+mu <- list(M0, M1, M2, M3, M4, M5, M6)
+
+F <- function(t, x, theta) x/sqrt(theta[2])
+S <- function(t, x, theta) sqrt(theta[2])
+B <- function(t, x, theta) -theta[1]*x
+
+true.loglik <- function(theta) {
+ DELTA <- deltat(X)
+ lik <- 0
+ for(i in 2:length(X))
+  lik <- lik + dnorm(X[i], mean=X[i-1]*exp(-theta[1]*DELTA), 
+   sd = sqrt((1-exp(-2*theta[1]*DELTA))*theta[2]/(2*theta[1])),TRUE)
+ lik  
 }
 
-# ex3.09 (cont)
-S1 <- apply(simple,2,function(x) mean(x,na.rm=T))
-K1 <- apply(kessler,2,function(x) mean(x,na.rm=T))
-M1 <- apply(mle,2,function(x) mean(x,na.rm=T))
-A <- cbind(S1,K1,M1)
-matrix(as.numeric(sprintf("%3.2f",A)),9,3)
 
-S2 <- apply(simple,2,function(x) sd(x,na.rm=T))
-K2 <- apply(kessler,2,function(x) sd(x,na.rm=T))
-M2 <- apply(mle,2,function(x) sd(x,na.rm=T))
-B <- cbind(S2,K2,M2)
-matrix(as.numeric(sprintf("%3.2f",B)),9,3)
+# ex3.09.R (cont)
+xx <- seq(-3,3,length=100)
+sapply(xx, function(x) HPloglik(X,c(x,4),mu,F,S)) -> px
+sapply(xx, function(x) true.loglik(c(x,4))) -> py
+sapply(xx, function(x) EULERloglik(X,c(x,4),B,S)) -> pz
 
-Delta <- c(0.4,1,5)
-v0 <- 2*theta0^2 * (1+exp(-2*theta0*Delta))/(1-
-  exp(-2*theta0*Delta))
+plot(xx,px,type="l",xlab=expression(beta),ylab="log-likelihood") # approx
+lines(xx,py, lty=3) # true
+lines(xx,pz, lty=2) # Euler
 
-sprintf("%3.2f",sqrt(v0[1]/c(200,500,1000)))
-sprintf("%3.2f",sqrt(v0[2]/c(200,500,1000)))
-sprintf("%3.2f",sqrt(v0[3]/c(200,500,1000)))
 
-# valid cases for the LS estimator
-apply(simple, 2, function(x) length(which(!is.na(x))))
+# ex3.09.R (cont)
+require(stats4)
+HP.negloglik <- function(BETA=3, SIGMA2=2) 
+  -HPloglik(X,c(BETA,SIGMA2),mu,F,S)
+true.negloglik <- function(BETA=3, SIGMA2=2) 
+  -true.loglik(c(BETA,SIGMA2))
+euler.negloglik <- function(BETA=3, SIGMA2=2) 
+  -EULERloglik(X,c(BETA,SIGMA2),B,S)
+
+mle(true.negloglik,lower=c(0,0),method="L-BFGS-B") -> fit.true
+mle(HP.negloglik,lower=c(0,0),method="L-BFGS-B") -> fit.approx
+mle(euler.negloglik,lower=c(0,0),method="L-BFGS-B") -> fit.euler
+
+# we look at the estimates
+coef(fit.true)
+coef(fit.approx)
+coef(fit.euler)
+
+# ex3.09.R (cont)
+logLik(fit.true)
+logLik(fit.approx)
+logLik(fit.euler)
+
+# ex3.09.R (cont)
+vcov(fit.true)
+vcov(fit.approx)
+vcov(fit.euler)
+
+# ex3.09.R (cont)
+beta <- 1
+sigma <- 2
+DELTA <- deltat(X)
+vbeta <- (exp(2*beta*DELTA)-1)/DELTA^2
+cv.bsigma <- sigma^2*(exp(2*beta*DELTA)-1-2*beta*DELTA)/(beta*DELTA^2)
+vsigma <- sigma^4 *((exp(2*beta*DELTA)-1)^2+2*beta^2*DELTA^2*(exp(2*beta*DELTA)+1)+4*beta*DELTA*(exp(2*beta*DELTA)-1))/(beta^2*DELTA^2*(exp(2*beta*DELTA)-1))
+matrix(c(vbeta, cv.bsigma, cv.bsigma, vsigma),2,2)
+
+# ex3.09.R (cont)
+vcov(fit.true)*100 # the sample size
+
+# ex3.09.R (cont)
+mle(true.negloglik,lower=c(0,0),fixed=list(SIGMA2=4),method="L-BFGS-B") -> fit.true
+mle(HP.negloglik,lower=c(0,0),fixed=list(SIGMA2=4),method="L-BFGS-B") -> fit.approx
+mle(euler.negloglik,lower=c(0,0),fixed=list(SIGMA2=4),method="L-BFGS-B") -> fit.euler
+coef(fit.true)
+coef(fit.approx)
+coef(fit.euler)
+
+vcov(fit.true)
+vcov(fit.approx)
+vcov(fit.euler)
 

@@ -1,18 +1,18 @@
 \name{simple.ef}
 \alias{simple.ef}
-\title{Simple estimating function of type I and II}
-\description{Apply simple estimating function to find estimates of the
+\title{Simple estimating functions of types I and II}
+\description{Apply a simple estimating function to find estimates of the
 parameters of a process solution of a stochastic differential equation.
 }
 \usage{
 simple.ef(X, f, guess, lower, upper) 
 }
 \arguments{
-  \item{X}{a ts object containg a sample path of a sde.}
-  \item{f}{a list of expressions of \code{x} and/or \code{y} and the parameters to be estimated. See details.}
-  \item{guess}{initial value of the parameters. See details.}
-  \item{lower}{lower bounds for the parameters. See details.}
-  \item{upper}{upper bounds for the parameters. See details.}
+  \item{X}{a ts object containing a sample path of an sde.}
+  \item{f}{a list of expressions of \code{x} and/or \code{y} and the parameters to be estimated; see details.}
+  \item{guess}{initial value of the parameters; see details.}
+  \item{lower}{lower bounds for the parameters; see details.}
+  \item{upper}{upper bounds for the parameters; see details.}
 }
 \details{
 The function \code{simple.ef} minimizes a simple estimating function

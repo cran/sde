@@ -1,6 +1,6 @@
 # ex1.11.R
 set.seed(123)
-N <- 100   # number of end-points of the grid including T
+N <- 100   # number of end points of the grid including T
 T <- 1 # length of the interval [0,T] in time units
 Delta <- T/N # time increment
 W <- numeric(N+1) # initialization of the vector W

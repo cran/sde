@@ -129,7 +129,7 @@ simple.ef2 <- function(X, drift, sigma, h, h.x, h.xx,
  else
   cat("\n")
  print(st)
- cat("\nOptimization contraints\n")
+ cat("\nOptimization constraints\n")
  ct <- as.matrix(cbind(lower, upper))
  rownames(ct) <- par.vars[-1]
  colnames(ct) <- c("lower", "upper")

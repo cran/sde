@@ -3,7 +3,7 @@
 \title{Pedersen's approximation of the likelihood}
 \description{Pedersen's approximation 
 of the likelihood of a process solution of a stochastic differential equation.
-This function is useful to calculate approximated maximum-likelihood estimators
+This function is useful to calculate approximated maximum likelihood estimators
 when the transition density of the process is not known. It is computationally
 intensive.
 }
@@ -11,12 +11,12 @@ intensive.
 SIMloglik(X, theta, d, s,  M=10000, N=2, log=TRUE)
 }
 \arguments{
-  \item{X}{a ts object containg a sample path of a sde.}
+  \item{X}{a ts object containing a sample path of an sde.}
   \item{theta}{vector of parameters.}
-  \item{d,s}{drift and diffusion coefficient. See details.}
+  \item{d,s}{drift and diffusion coefficients; see details.}
   \item{log}{logical; if TRUE, the log-likelihood is returned.}
-  \item{N}{number of subintervals. See details.}
-  \item{M}{number of Monte Carlo simulations. Should be an even number. See details.}
+  \item{N}{number of subintervals; see details.}
+  \item{M}{number of Monte Carlo simulations, which should be an even number; see details.}
 }
 \details{
 The function \code{SIMloglik} returns the simulated log-likelihood obtained by 
@@ -48,7 +48,8 @@ true.loglik <- function(theta) {
  lik <- 0
  for(i in 2:length(X))
   lik <- lik + dnorm(X[i], mean=X[i-1]*exp(-theta[1]*DELTA), 
-   sd = sqrt((1-exp(-2*theta[1]*DELTA))*theta[2]/(2*theta[1])),TRUE)
+   sd = sqrt((1-exp(-2*theta[1]*DELTA))*
+              theta[2]/(2*theta[1])),TRUE)
  lik  
 }
 

@@ -3,10 +3,10 @@
 \docType{data}
 \title{Weekly closings of the Dow-Jones industrial average}
 \description{
-This data set contains the
-weekly closings of the Dow-Jones industrial average in the period July 1971 - Aug 1974.
-These data have been proposed by Hsu (1977, 1979) and used by many other authors to test
-change point estimators. There are 162 data and the main evidence found by several authors 
+This dataset contains the
+weekly closings of the Dow-Jones industrial average in the period July 1971--August 1974.
+These data were proposed to test
+change-point estimators. There are 162 data, and the main evidence found by several authors 
 is that a change in the variance occurred around the
 third week of March 1973. 
 }

@@ -90,7 +90,7 @@ simple.ef <- function(X, f, guess, lower, upper){
  else
   cat("\n")
  print(st)
- cat("\nOptimization contraints\n")
+ cat("\nOptimization constraints\n")
  ct <- as.matrix(cbind(lower, upper))
  rownames(ct) <- f.pars
  colnames(ct) <- c("lower", "upper")

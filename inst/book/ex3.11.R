@@ -1,5 +1,7 @@
+# ex3.11.R
 require(sde)
-
+require(stats4)
+# ex3.11.R
 K.est <- function(x) {
   n.obs <- length(x)
   n.obs/(2*(sum(x^2)))
@@ -27,87 +29,81 @@ MLE.est <- function(y, lower=0, upper=Inf){
  tmp
 }
 
-# ex3.11.R
-set.seed(123); 
-d <- expression(-1 * x)
-s <- expression(1) 
-x0 <- rnorm(1,sd=sqrt(1/2))
-sde.sim(X0=x0,drift=d, sigma=s,N=2500,delta=0.1) -> X
- 
-# Kessler's estimator revisited
-f <- list(expression(2*theta*x^2-1))
-simple.ef(X, f, lower=0, upper=Inf)
-
-K.est(X)
-
-# Least Squares estimator revisited
-f <- list(expression(x*(y-x*exp(-0.1*theta))))
-simple.ef(X, f, lower=0, upper=Inf)
-
-LS.est(X)
-
-# MLE estimator revisited, f is based on 
-# the score function of the process
-f <-list(expression((1 + 2 * (x^2) * theta + 2 * 0.1 * theta + 
-   exp(4 * 0.1 * theta) * (1 - 2 * (y^2) * theta) 
-   - 4 * exp(3 * 0.1 * theta) * x * y * theta * (-1 + 0.1 * theta)
-   - 4 * exp(theta * 0.1) * x * y * theta * (1 + theta * 0.1) 
-   + 2 * exp(2 * 0.1 * theta) * (-1 - 0.1 * theta + (x^2) * theta * 
-   (-1 + 2 * 0.1 * theta) + (y^2) * theta * (1 + 2 *
-   0.1 * theta)))/((2 * (-1 + exp(2 * 0.1 * theta))^2) * theta)))
-
-simple.ef(X, f, lower=0, upper=Inf)
-
-MLE.est(X)
-
 
 # ex3.11.R (cont)
+theta0 <- 1
+d <- expression( -1*x ) 
+s <-  expression( 1 )
 
-set.seed(123); 
-d <- expression(-1 * x)
-s <- expression(1) 
-x0 <- rnorm(1,sd=sqrt(1/2))
-sde.sim(X0=x0,drift=d, sigma=s,N=1500,delta=0.1) -> X
+K <- 1000 # 1000 MC replications
 
-d <- expression(-theta* x)
-s <- expression(1) 
-h <- list(expression(x^2))
-simple.ef2(X, d, s, h, lower=0, upper=Inf)
+set.seed(123)
+kessler <- matrix(NA,K,9)
+mle <- matrix(NA,K,9)
+simple <- matrix(NA,K,9)
+ x0 <- rnorm(K,sd=sqrt(1/(2*theta0)))
+ sde.sim(X0=x0, drift=d, sigma=s, N=50000, delta=0.1, M=K)->X
+for(k in 1:K){
+ cat(".") 
+ m <- 0
+ for(Delta in c(0.4,1,5)){
+  m <- m+1
+  j <- 0
+  for(n in c(200,500,1000)){
+   j <- j+1
+   X.win <- window(X[,k], start=0, end=n*Delta, deltat=Delta)
+   kessler[k,m+3*(j-1)] <- K.est(X.win)
+   simple[k,m+3*(j-1)] <- LS.est(X.win)
+   mle[k,m+3*(j-1)] <- MLE.est(X.win)
+  }
+ }
+ cat(sprintf(" %3.3d / %3.3d completed\n",k,K))
+}
 
-K.est(X)
-MLE.est(X)
-LS.est(X)
+# ex3.11.R (cont)
+S1 <- apply(simple,2,function(x) mean(x,na.rm=T))
+K1 <- apply(kessler,2,function(x) mean(x,na.rm=T))
+M1 <- apply(mle,2,function(x) mean(x,na.rm=T))
+A <- cbind(S1,K1,M1)
+matrix(as.numeric(sprintf("%3.2f",A)),9,3)
+
+S2 <- apply(simple,2,function(x) sd(x,na.rm=T))
+K2 <- apply(kessler,2,function(x) sd(x,na.rm=T))
+M2 <- apply(mle,2,function(x) sd(x,na.rm=T))
+B <- cbind(S2,K2,M2)
+matrix(as.numeric(sprintf("%3.2f",B)),9,3)
+
+Delta <- c(0.4,1,5)
+v0 <- 2*theta0^2 * (1+exp(-2*theta0*Delta))/(1-
+  exp(-2*theta0*Delta))
+
+sprintf("%3.2f",sqrt(v0[1]/c(200,500,1000)))
+sprintf("%3.2f",sqrt(v0[2]/c(200,500,1000)))
+sprintf("%3.2f",sqrt(v0[3]/c(200,500,1000)))
+
+# valid cases for the LS estimator
+apply(simple, 2, function(x) length(which(!is.na(x))))
 
 
-# ex3.11 (cont)
 
+
+require(sde)
+# ex3.11.R (cont)
+# CIR-Model
+# theta = -1
+# alpha = 10
+# sigma = 1
+# x0 = 10
 set.seed(123); 
 d <- expression(10 - x)
 s <- expression(sqrt(x)) 
 x0 <- 10
-sde.sim(X0=x0,drift=d, sigma=s,N=1500,delta=0.1) -> X
+sde.sim(X0=x0,drift=d, sigma=s,N=1000,delta=0.1) -> X
 
-d <- expression(alpha +theta* x)
-s <- expression(sqrt(x)) 
-h <- list(expression(x),expression(x^2))
-simple.ef(X, d, s, h, lower=c(0,-Inf), upper=c(Inf,0))
-
-# explicit estimator for alpha
+# estimator for alpha
 (sum(X)^2)/(2*(length(X)*sum(X^2)-sum(X)^2))
 
-# explicit estimator for theta
+# estimator for theta
 (-length(X)*sum(X))/(2*(length(X)*sum(X^2)-sum(X)^2))
 
-
-# ex3.11.R (cont)
-set.seed(123); 
-d <- expression(10 - x)
-s <- expression(sqrt(x)) 
-x0 <- 10
-sde.sim(X0=x0,drift=d, sigma=s,N=1500,delta=0.1) -> X
-
-d <- expression(10- x)
-s <- expression(x^gamma) 
-h <- list(expression(x^2))
-simple.ef2(X, d, s, h, lower=0, upper=1)
 

@@ -1,42 +1,43 @@
 \name{sdeAIC}
 \alias{sdeAIC}
-\title{Akaike's Information Criterion for diffusion processes}
+\title{Akaike's information criterion for diffusion processes}
 \description{Implementation of the AIC statistics for diffusion processes.
 }
 \usage{
-sdeAIC(X, theta, b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, ...)
+sdeAIC(X, theta, b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, 
+       ...)
 }
 \arguments{
-  \item{X}{a ts object containg a sample path of a sde.}
+  \item{X}{a ts object containing a sample path of an sde.}
   \item{theta}{a vector or estimates of the parameters.}
   \item{b}{drift coefficient of the model as a function of \code{x} and \code{theta}.}
   \item{s}{diffusion coefficient of the model as a function of \code{x} and \code{theta}.}
   \item{b.x}{partial derivative of \code{b} as a function of \code{x} and \code{theta}.}
   \item{s.x}{partial derivative of \code{s} as a function of \code{x} and \code{theta}.}
-  \item{s.xx}{second order partial derivative of \code{s} as a function of \code{x} and \code{theta}.}
-  \item{B}{initial value of the parameters. See details.}
-  \item{B.x}{partial deriivative of \code{B} as a function of \code{x} and \code{theta}.}
-  \item{H}{function of \code{(x,y)}. It is the integral of \code{B/s}. Optional.}
-  \item{S}{function of \code{(x,y)}. It is the integral of \code{1/s}. Optional.}
-  \item{guess}{intial value for the parameters to be estimated. Optional.}
-  \item{...}{passed to the \code{optim} function. Optional.}
+  \item{s.xx}{second-order partial derivative of \code{s} as a function of \code{x} and \code{theta}.}
+  \item{B}{initial value of the parameters; see details.}
+  \item{B.x}{partial derivative of \code{B} as a function of \code{x} and \code{theta}.}
+  \item{H}{function of \code{(x,y)},  the integral of \code{B/s}; optional.}
+  \item{S}{function of \code{(x,y)}, the integral of \code{1/s}; optional.}
+  \item{guess}{initial value for the parameters to be estimated; optional.}
+  \item{...}{passed to the \code{optim} function; optional.}
 }
 \details{
-the \code{sdeAIC} evaluates the AIC statistics for diffusion processes using
-Dacunha-Castelle and Florens-Zmirou approximation of the likelihood.
+The \code{sdeAIC} evaluates the AIC statistics for diffusion processes using
+Dacunha-Castelle and Florens-Zmirou approximations of the likelihood.
 
-The parameter \code{theta} is supposed to be the value oftrue mle estimator 
+The parameter \code{theta} is supposed to be the value of the true MLE estimator 
 or the minimum contrast estimator of the parameters in the model. If missing
-or \code{NULL} and \code{guess} is specified, \code{theta} is estimated using
-minimum contrast estimator derived from the locally gaussian approximation
+or \code{NULL} and \code{guess} is specified, \code{theta} is estimated using the 
+minimum contrast estimator derived from the locally Gaussian approximation
 of the density. If both \code{theta} and \code{guess} are missing, nothing can
 be calculated.
 
 If missing, \code{B} is calculated as \code{b/s - 0.5*s.x} provided that \code{s.x}
 is not missing.
 
-If missing, \code{B.x} is calculated as \code{b.x/s - b*s.x/(s^2)-0.5*s.xx} provided
-that \code{b.x}, \code{s.x} and \code{s.xx} are not missing.
+If missing, \code{B.x} is calculated as \code{b.x/s - b*s.x/(s^2)-0.5*s.xx}, provided
+that \code{b.x}, \code{s.x}, and \code{s.xx} are not missing.
 
 If missing, both \code{H} and \code{S} are evaluated numerically.
 }
@@ -79,9 +80,10 @@ sdeAIC(X, NULL, b, s, b.x, s.x, s.xx, guess=c(1,1,1,1),
        lower=rep(1e-3,4), method="L-BFGS-B")
 
 s <- function(x,theta) (theta[3]+theta[4]*x)^theta[5]
-s.x <- function(x,theta) theta[4]*theta[5]*(theta[3]+theta[4]*x)^(-1+theta[5])
+s.x <- function(x,theta) 
+           theta[4]*theta[5]*(theta[3]+theta[4]*x)^(-1+theta[5])
 s.xx <- function(x,theta) (theta[4]^2*theta[5]*(theta[5]-1)
-                                *(theta[3]+theta[4]*x)^(-2+theta[5]))
+                 *(theta[3]+theta[4]*x)^(-2+theta[5]))
 # AIC for competing model 2
 sdeAIC(X, NULL, b, s, b.x, s.x, s.xx, guess=c(1,1,1,1,1),
        lower=rep(1e-3,5), method="L-BFGS-B")

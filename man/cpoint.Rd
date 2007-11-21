@@ -1,7 +1,7 @@
 \name{cpoint}
 \alias{cpoint}
-\title{Volatility change point estimator for diffusion processes}
-\description{Volatility change point estimator for diffusion processes based on leasts squares}
+\title{Volatility change-point estimator for diffusion processes}
+\description{Volatility change-point estimator for diffusion processes based on least squares.}
 \usage{
 cpoint(x, mu, sigma)
 }
@@ -12,18 +12,14 @@ cpoint(x, mu, sigma)
 }
 \details{
 The function returns a list of  elements containing the discrete \code{k0} and continuous \code{tau0}
-change point instant, the estimated volatilities before (\code{theta1}) and after (\code{theta2}) the time change.
-The model is assumed to be of the following form
-
-\code{dXt = b(Xt)dt + theta*sigma(Xt)dWt}
-
+change-point instant, the estimated volatilities before (\code{theta1}) and after (\code{theta2}) the time change.
+The model is assumed to be of the  form
+\deqn{{\rm d}X_t = b(X_t){\rm d}t + \theta \sigma(X_t){\rm d}W_t}{dXt = b(Xt)dt + theta*sigma(Xt)dWt}
 where \code{theta} = \code{theta1} for \code{t<=tau0} and \code{theta} = \code{theta2} otherwise.
 
-If the drift coefficient is unknown, the following model is considered
-
-\code{dXt = b(Xt)dt + theta*dWt}
-
-and \code{b} is estimated nonparametrically.
+If the drift coefficient is unknown, the  model
+\deqn{{\rm d}X_t = b(X_t){\rm d}t + \theta {\rm d}W_t}{dXt = b(Xt)dt + \theta*dWt}
+is considered and \code{b} is estimated nonparametrically.
 }
 \value{
   \item{X}{a list}
@@ -33,7 +29,8 @@ and \code{b} is estimated nonparametrically.
 tau0 <- 0.6
 k0 <- ceiling(1000*tau0)
 set.seed(123)
-X1 <- sde.sim(X0=1, N=2*k0, t0=0, T=tau0, model="CIR", theta=c(6,2,1))
+X1 <- sde.sim(X0=1, N=2*k0, t0=0, T=tau0, model="CIR", 
+              theta=c(6,2,1))
 X2 <- sde.sim(X0=X1[2*k0+1], N=2*(1000-k0), t0=tau0, 
    T=1, model="CIR", theta=c(6,2,3))
 

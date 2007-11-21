@@ -2,11 +2,11 @@
 \alias{ksdrift}
 \alias{ksdiff}
 \alias{ksdens}
-\title{Nonparametric invariant density, drift and diffusion coefficient estimation.}
+\title{Nonparametric invariant density, drift, and diffusion coefficient estimation}
 \description{Implementation of simple Nadaraya-Watson nonparametric 
 estimation of drift and diffusion
-coefficient and plain kernel density estimation of the invariant density
-for a  one dimensional diffusion process.}
+coefficient, and plain kernel density estimation of the invariant density
+for a  one-dimensional diffusion process.}
 \usage{
 ksdrift(x, bw, n = 512)
 ksdiff(x, bw, n = 512)
@@ -19,19 +19,21 @@ ksdens(x, bw, n = 512)
 }
 \details{
 These functions return the nonparametric estimate of the drift or
-diffusion coefficient for data \code{x} using Nadaraya-Watson estimator 
+diffusion coefficients for data \code{x} using the Nadaraya-Watson estimator 
 for diffusion processes.
 
-\code{ksdens} return the density estimates of the invariant density.
+
+\code{ksdens} returns the density estimates of the invariant density.
+
 
 If not provided, the bandwidth \code{bw}
-is calculated using Scott's rule, i.e. 
-\code{bw = len^(-1/5)*sd(x)} where \code{len=length(x)} 
+is calculated using Scott's rule (i.e., 
+\code{bw = len^(-1/5)*sd(x)}) where \code{len=length(x)} 
 is the number of observed points of the diffusion path.
 }
 \value{
   \item{val}{an invisible list of \code{x} and \code{y} coordinates 
-  and an object of class \code{density} in case of invariant
+  and an object of class \code{density} in the case of invariant
   density estimation}
 }
 \author{Stefano Maria Iacus}
@@ -48,7 +50,8 @@ from discrete observations,  \emph{Journal of Applied Probability}, 30, 790-804.
 \examples{
 set.seed(123)
 theta <- c(6,2,1)
-X <- sde.sim(X0 = rsCIR(1, theta), model="CIR", theta=theta,N=1000,delta=0.1)
+X <- sde.sim(X0 = rsCIR(1, theta), model="CIR", theta=theta,
+     N=1000,delta=0.1)
 
 b <- function(x)
  theta[1]-theta[2]*x

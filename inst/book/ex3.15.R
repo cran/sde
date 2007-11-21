@@ -1,56 +1,47 @@
 require(sde)
 
 # ex3.15.R
-alpha <- 0.5
-beta <- 0.2
-sigma <- sqrt(0.05)
-true <- c(alpha, beta, sigma)
-names(true) <- c("alpha", "beta", "sigma")
+k <- NULL
+theta <- NULL
+k1 <- NULL
+theta1 <- NULL
+sigma.hat <- NULL
+sigma <- 0.15
+pars <- c(0.5, 0.2, sigma)
+n.sim <- 1000
+Delta <- 0.01
+set.seed(123)
+x0 <- rsCIR(n.sim, pars)
  
-set.seed(123)
-x0 <- rsCIR(1,theta=true)
-sde.sim(X0=x0,model="CIR",theta=true,N=500000,delta=0.001) -> X
-X <- window(X, deltat=0.1)
-DELTA = deltat(X)
-n <- length(X) 
-X <- window(X, start=n*DELTA*0.5)
-plot(X)
+T <- 100
 
+for(i in 1:n.sim){
+  X <- sde.sim(X0=x0[i], model="CIR", theta=pars, N=T/Delta, delta=Delta)
+  
+  n <- length(X)
 
-# ex3.15.R (cont)
-u <- function(x, y, theta, DELTA){
-  c.mean <- theta[1]/theta[2] + (y-theta[1]/theta[2])*exp(-theta[2]*DELTA)
-  c.var <- ((y*theta[3]^2 * 
-     (exp(-theta[2]*DELTA)-exp(-2*theta[2]*DELTA))/theta[2] +  
-        +theta[1]*theta[3]^2*(1-exp(-2*theta[2]*DELTA))/(2*theta[2]^2)))  
-  cbind(x-c.mean,y*(x-c.mean), c.var-(x-c.mean)^2, y*(c.var-(x-c.mean)^2))  
+# CIR
+ I3 <- Delta * sum(1/X[1:(n-1)] + 1/X[2:n])/2
+ I1 <- log(X[n]/X[1]) + 0.5*sigma^2 * I3
+ I2 <- X[n] - X[1]
+ I4 <- Delta * sum(X[1:(n-1)] + X[2:n])/2
+ I5 <- n*Delta
+
+ k <- c(k, (I1*I5-I2*I3)/(I3*I4-I5^2))
+ theta <- c(theta, (I1*I4-I2*I5)/(I1*I5-I2*I3))
+ sigma.est <- sqrt(sum((X[2:n]-X[1:(n-1)])^2/X[1:(n-1)])/(n*Delta))
+ sigma.hat <- c(sigma.hat, sigma.est)
+
+ I1 <- log(X[n]/X[1]) + 0.5*sigma.est^2 * I3
+ k1 <- c(k1, (I1*I5-I2*I3)/(I3*I4-I5^2))
+ theta1 <- c(theta1, (I1*I4-I2*I5)/(I1*I5-I2*I3))
+
 }
+cat(sprintf("kappa=%f, theta=%f, sigma=%f : kappa1=%f, theta1=%f\n", mean(k*theta), 
+ mean(k), mean(sigma.hat), mean(k1*theta1), mean(k1)))
 
+cat(sprintf("SD: kappa=%f, theta=%f, sigma=%f : kappa1=%f, theta1=%f\n", sd(k*theta), 
+ sd(k), sd(sigma.hat), sd(k1*theta1), sd(k1)))
 
-# ex3.15.R (cont)
-CIR.lik <- function(theta1,theta2,theta3) {
- n <- length(X)
- dt <- deltat(X)
- -sum(dcCIR(x=X[2:n], Dt=dt, x0=X[1:(n-1)], theta=c(theta1,theta2,theta3), 
-   log=TRUE))
-}
+cat(sprintf("kappa=%f, theta=%f, sigma=%f\n", pars[1], pars[2], pars[3]))
 
-fit <- mle(CIR.lik, start=list(theta1=.1,  theta2=.1,theta3=.3), 
-    method="L-BFGS-B",lower=c(0.001,0.001,0.001), upper=c(1,1,1))
-# maximum likelihood estimates
-coef(fit)
-
-gmm(X,u, guess=as.numeric(coef(fit)), lower=c(0,0,0), upper=c(1,1,1))
-
-true
-
-
-# ex3.15.R (cont)
-u2 <- function(x, y, theta, DELTA){
-  c.mean <- theta[1]/theta[2] + (y-theta[1]/theta[2])*exp(-theta[2]*DELTA)
-  cbind(x-c.mean,y*(x-c.mean))
-}
-
-set.seed(123)
-gmm(X, u2, dim=2, lower=c(0,0), upper=c(1,1))
-true
