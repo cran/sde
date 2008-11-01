@@ -53,6 +53,8 @@ export(ksdens)
 export(cpoint)
 # AIC
 export(sdeAIC)
+export(MOdist)
+export(sdeDiv)
 
 
 

@@ -1,3 +1,7 @@
+Changes from sde_2.0.0 to sde_2.0.2:
+	added code for MOdist
+	added code for sdeDiv
+
 Changes from sde_1.9.32 to sde_2.0.0:
 	fixed code for sdeAIC. Vectorization was failing.
  
