@@ -5,15 +5,15 @@
 }
 \usage{
 sdeDiv(X, theta1, theta0, phi= expression( -log(x) ), C.phi, K.phi, 
-       b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, ...)
+       b, s, b.x, s.x, s.xx, B, B.x, H, S, guess, \dots)
 }
 \arguments{
   \item{X}{a ts object containing a sample path of an sde.}
   \item{theta1}{a vector parameters for the hypothesis H1. If not given, \code{theta1} is estimated from the data.}
   \item{theta0}{a vector parameters for the hypothesis H0.}
   \item{phi}{an expression containing the phi function of the phi-divergence.}
-  \item{C.phi}{the value of \code{phi'(1)}. If not given, it is calculated within this function.}
-  \item{K.phi}{the value of \code{phi''(1)}. If not given, it is calculated within this function.}
+  \item{C.phi}{the value of first derivtive of \code{phi} at point 1. If not given, it is calculated within this function.}
+  \item{K.phi}{the value of second derivative of \code{phi} at point 1. If not given, it is calculated within this function.}
   \item{b}{drift coefficient of the model as a function of \code{x} and \code{theta}.}
   \item{s}{diffusion coefficient of the model as a function of \code{x} and \code{theta}.}
   \item{b.x}{partial derivative of \code{b} as a function of \code{x} and \code{theta}.}
@@ -24,7 +24,7 @@ sdeDiv(X, theta1, theta0, phi= expression( -log(x) ), C.phi, K.phi,
   \item{H}{function of \code{(x,y)},  the integral of \code{B/s}; optional.}
   \item{S}{function of \code{(x,y)}, the integral of \code{1/s}; optional.}
   \item{guess}{initial value for the parameters to be estimated; optional.}
-  \item{...}{passed to the \code{optim} function; optional.}
+  \item{\dots}{passed to the \code{optim} function; optional.}
 }
 \details{
 The \code{sdeDiv} estimate the phi-divergence for diffusion processes defined as
