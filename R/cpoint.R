@@ -13,10 +13,11 @@ cpoint <- function(x, mu, sigma){
    Z <- diff(x)/sqrt(DELTA) - y*sqrt(DELTA)    
  }
  
+ lenZ <- length(Z)	
  Sn <- cumsum(Z^2)
  S <- sum(Z^2)
- D <- abs((2:n)/n - Sn/S)
- k0 <- which(D==max(D))
- return(list(k0=k0, tau0=time(x)[k0], 
-   theta1=sqrt(Sn[k0]/k0), theta2=sqrt((S-Sn[k0])/(n-k0))))
+ D <- abs(1:lenZ/lenZ - Sn/S)
+ k0 <- which(D==max(D))[1]
+ return(list(k0=k0+1, tau0=time(x)[k0+1], 
+   theta1=sqrt(Sn[k0]/k0), theta2=sqrt((S-Sn[k0])/(lenZ-k0))))
 }
