@@ -1,3 +1,10 @@
+Changes from sde_2.0.5 to sde_2.0.7:
+	fixed script ex1.14.R to match the errata corrige
+	added errata corrige for the book as vignette
+
+Changes from sde_2.0.5 to sde_2.0.6:
+	fixed typo in DESCRIPTION file
+
 Changes from sde_2.0.2 to sde_2.0.5:
 	fixed code cpoint function, the index was shifted by 1
 	fixed dates in DWJ data set
