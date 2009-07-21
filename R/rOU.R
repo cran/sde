@@ -1,7 +1,7 @@
 # Parametrization dXt = (O1 - O2*Xt)dt + O3*dWt
 
 checkOU <- function(theta){
-  if(theta[2]<=0) stop("the process is not stationary")
+  if(theta[2]<=0) cat("\nthe process is not stationary\n")
   if(theta[3]<=0) stop("variance must be positive")
 }
 
