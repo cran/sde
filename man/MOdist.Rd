@@ -3,7 +3,7 @@
 \title{Markov Operator distance for clustering diffusion processes.}
 \description{Markov Operator distance for clustering diffusion processes.}
 \usage{
-MOdist(x, M=20, rangeval=range(x, na.rm=TRUE, finite = TRUE))
+MOdist(x, M=50, rangeval=range(x, na.rm=TRUE, finite = TRUE))
 }
 \arguments{
   \item{x}{one or multi-dimensional time series.}

@@ -1,4 +1,4 @@
-MOdist <- function(x, M=20, rangeval=range(x, na.rm=TRUE, finite = TRUE)){
+MOdist <- function(x, M=50, rangeval=range(x, na.rm=TRUE, finite = TRUE)){
  require(fda)
 
  N <- NROW(x)
@@ -38,7 +38,7 @@ MOdist <- function(x, M=20, rangeval=range(x, na.rm=TRUE, finite = TRUE)){
 # Calculate distance matrix
  for(i in 1:(nSeries-1))
   for(j in (i+1):nSeries){
-   D[j,i] <- sum(abs(V[[i]]-V[[j]])^2)  
+   D[j,i] <- sum(abs(V[[i]]-V[[j]]))  
   }
   
   as.dist(D)
