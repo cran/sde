@@ -36,7 +36,7 @@ dcKessler <- function(x, t, x0, t0, theta, d, dx, dxx, s, sx, sxx, log=FALSE){
  sg2 <- sxx(t0,x0,theta)
  Ex <- (x0 + mu*Dt + (mu*mu1+0.5*(sg^2 * mu2))*(Dt^2)/2)
  Vx <- ( x0^2 +(2*mu*x0 + sg^2)*Dt + (2*mu*(mu1*x0+mu+sg*sg1)+
-	   sg^2*(mu2*x0 + 2*mu1 + sg1^2 + sg*sg2))*(Dt^2)/2 - Ex) 
+	   sg^2*(mu2*x0 + 2*mu1 + sg1^2 + sg*sg2))*(Dt^2)/2 - Ex^2) 
  Vx[Vx<0] <- NA
  dnorm(x, mean = Ex, sd=sqrt(Vx),log=log)
 }
