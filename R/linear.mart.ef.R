@@ -102,7 +102,7 @@ linear.mart.ef <- function(X, drift, sigma, a1, a2, guess,
  Fn <- function(theta){
   for(i in 2:n.vars){
    assign(par.vars[i], theta[i-1],e1)	
-   assign(par.vars[i], theta[i-1], .GlobalEnv)	
+   # assign(par.vars[i], theta[i-1], e1)
   }
 
   aa <-  A() # this contains the weights

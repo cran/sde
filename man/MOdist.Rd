@@ -29,6 +29,7 @@ missing data are imputed by interpolation.
 De Gregorio, A. Iacus, S.M. (2008) Clustering of discretely observed diffusion processes, \url{http://arxiv.org/abs/0809.3902}
 }
 \examples{
+\dontrun{
 data(quotes)
 
 plot(quotes)
@@ -44,6 +45,7 @@ text( cmd, labels(d) , col=groups)
 plot(quotes, col=groups)
 
 plot(quotes, col=groups,ylim=range(quotes))
+}
 }
 \keyword{datagen}
 \keyword{ts}

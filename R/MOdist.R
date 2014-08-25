@@ -1,5 +1,4 @@
 MOdist <- function(x, M=50, rangeval=range(x, na.rm=TRUE, finite = TRUE)){
- require(fda)
 
  N <- NROW(x)
  nSeries = NCOL(x)

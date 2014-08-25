@@ -72,6 +72,7 @@ Discretely Observed Diffusion Processes. Available at \url{http://arxiv.org/abs/
 }
 \author{Stefano Maria Iacus}
 \examples{
+\dontrun{
 set.seed(123)
 theta0 <- c(0.89218*0.09045,0.89218,sqrt(0.032742))
 theta1 <- c(0.89218*0.09045/2,0.89218,sqrt(0.032742/2))
@@ -85,22 +86,27 @@ s.x <- function(x,theta) theta[3]/(2*sqrt(x))
 s.xx <- function(x,theta) -theta[3]/(4*x^1.5)
 
 
-X <- sde.sim(X0=rsCIR(1, theta1), N=1000, delta=1e-3, model="CIR", theta=theta1)
+X <- sde.sim(X0=rsCIR(1, theta1), N=1000, delta=1e-3, model="CIR", 
+ theta=theta1)
 
-sdeDiv(X=X, theta0 = theta0,   b=b, s=s, b.x=b.x, s.x=s.x, s.xx=s.xx, method="L-BFGS-B", 
+sdeDiv(X=X, theta0 = theta0,   b=b, s=s, b.x=b.x, s.x=s.x, 
+ s.xx=s.xx, method="L-BFGS-B", 
  lower=rep(1e-3,3), guess=c(1,1,1))
 
-sdeDiv(X=X, theta0 = theta1,   b=b, s=s, b.x=b.x, s.x=s.x, s.xx=s.xx, method="L-BFGS-B", 
+sdeDiv(X=X, theta0 = theta1,   b=b, s=s, b.x=b.x, s.x=s.x, 
+ s.xx=s.xx, method="L-BFGS-B", 
  lower=rep(1e-3,3), guess=c(1,1,1))
 
 lambda <- -1.75
 myphi <-  expression( (x^(lambda+1) -x - lambda*(x-1))/(lambda*(lambda+1)) )
 
-sdeDiv(X=X, theta0 = theta0,   phi = myphi, b=b, s=s, b.x=b.x, s.x=s.x, s.xx=s.xx, method="L-BFGS-B", 
+sdeDiv(X=X, theta0 = theta0,   phi = myphi, b=b, s=s, b.x=b.x, 
+ s.x=s.x, s.xx=s.xx, method="L-BFGS-B", 
  lower=rep(1e-3,3), guess=c(1,1,1))
 
-sdeDiv(X=X, theta0 = theta1,   phi = myphi, b=b, s=s, b.x=b.x, s.x=s.x, s.xx=s.xx, method="L-BFGS-B", 
+sdeDiv(X=X, theta0 = theta1,   phi = myphi, b=b, s=s, b.x=b.x, 
+ s.x=s.x, s.xx=s.xx, method="L-BFGS-B", 
  lower=rep(1e-3,3), guess=c(1,1,1))
-
+}
 }
 \keyword{ts}

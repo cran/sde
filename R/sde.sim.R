@@ -142,7 +142,6 @@ sde.sim <- function (t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
         X <- sde.sim.milstein2(x0, t0, Dt, N, M, d1, d1.x, d1.xx, 
             s1, s1.x, s1.xx)
      if (method == "KPS") {
-        require(MASS)
         Sigma <- matrix(c(Dt, 0.5 * Dt^2, 0.5 * Dt^2, 1/3 * Dt^3), 
             2, 2)
         tmp <- mvrnorm(N*M, c(0, 0), Sigma)

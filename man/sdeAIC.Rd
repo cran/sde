@@ -55,6 +55,7 @@ Mathematics, Kyushu University, Fukuoka, Japan}.
 }
 \author{Stefano Maria Iacus}
 \examples{
+\dontrun{
 set.seed(123)
 # true model generating data
 dri <- expression(-(x-10))
@@ -87,5 +88,6 @@ s.xx <- function(x,theta) (theta[4]^2*theta[5]*(theta[5]-1)
 # AIC for competing model 2
 sdeAIC(X, NULL, b, s, b.x, s.x, s.xx, guess=c(1,1,1,1,1),
        lower=rep(1e-3,5), method="L-BFGS-B")
+}
 }
 \keyword{ts}

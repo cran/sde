@@ -1,0 +1,178 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{amssymb,amsmath}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\textwidth = 6.5 in
+\textheight = 9 in
+\oddsidemargin = 0.0 in
+\evensidemargin = 0.0 in
+\topmargin = 0.0 in
+\headheight = 0.0 in
+\headsep = 0.0 in
+\parskip = 0.2in
+\parindent = 0.0in
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+
+%\VignetteIndexEntry{Errata corrige to 1st edition of the companion book} 
+
+\date{This version}
+
+\def\de{{\rm d}}
+
+\begin{document}
+
+{\it S.M. Iacus}. Errata Corrige to the first edition of: \\
+
+Iacus, S.M. (2008) {\it Simulation and Inference for Stochastic Differential  Equations: with R examples}, Springer Series in Statistics, Springer NY,  ISBN: 978-0-387-75838-1.
+\\
+\bigskip
+
+This version: {\bf 24-june-2009}
+
+\section*{Errata in Chapter 1}
+\begin{tabular}{lll}
+Where & Errata & Corrige\\
+\hline
+\\
+p:14, l:-22 &$(\omega, \mathcal A, P)$ & $(\Omega, \mathcal A, P)$\\
+p:18, l:2 &$(\omega, \mathcal A, P)$& $(\Omega, \mathcal A, P)$\\
+p.30, l:-2 &$\Pi_n\to 0$ & $||\Pi_n||\to 0$\\
+p.36, l:-3 & $t \to -\infty$ & $t\to \infty$\\
+p.39, l:3 & $O(\de t)$ & $o(\de t)$\\
+p.39, f. (1.30) & $\displaystyle\left(b_1(s)-\frac12\sigma_1(s)\right)$ & $\displaystyle\left(b_1(s)-\frac12\sigma_1^2(s)\right)$  \\
+p.42, l:11 & $b_1(x)=\nu$ & $b_1(x)=0$\\
+p.42, l:12 & $b_2(x)=0$  &$b_2(x)=\nu$\\
+\end{tabular}\\
+
+p.42, central formula becomes
+$$
+\begin{aligned}
+\frac{\de P_2}{\de P_1}(Y) &=\,\,  \exp\left\{
+\int_0^1 \frac{\nu-0}{\sigma^2}\de Y_s -\frac12 \int_0^1 \frac{\nu^2-0^2}{\sigma^2}\de t
+\right\}\\
+&= \,\, \exp\left\{
+ \frac{\nu}{\sigma^2}\int_0^1(\nu \de s +\sigma \de W_s) - \frac12  \frac{\nu^2}{\sigma^2}
+\right\}\\
+&= \,\, \exp\left\{
+ \left(\frac{\nu}{\sigma}\right)^2 + \frac{\nu}{\sigma}  W_1 - \frac12  \frac{\nu^2}{\sigma^2}
+\right\}\\
+&= \,\,\exp\left\{
+\frac12  \left(\frac{\nu}{\sigma}\right)^2 + \frac{\nu W_1}{\sigma} 
+\right\}\,.
+\end{aligned}
+$$
+
+p.42, script ${\tt ex1.14.R}$ has changed to match this errata corrige in version 2.0.7 of the $\tt sde$ package. See below:
+\vspace{-0.5cm}
+{\scriptsize
+\begin{verbatim}
+# ex1.14.R -- corrected version. See errata corrige to the first edition
+set.seed(123)
+par("mar"=c(3,2,1,1))
+par(mfrow=c(2,1))
+npaths <- 30
+N <- 1000
+sigma <- 0.5
+nu <- -0.7
+X <- sde.sim(drift=expression(0),sigma=expression(0.5), pred=F, N=N,M=npaths) 
+Y <- X + nu*time(X)
+girsanov <- exp(0.25 * (nu/sigma*X[N,] + 0.5*(nu/sigma)^2))
+girsanov <- (girsanov - min(girsanov)) / diff(range(girsanov))
+col.girsanov <- gray(1-girsanov)
+matplot(time(X),Y,type="l",lty=1, col="black",xlab="t")
+matplot(time(X),Y,type="l",lty=1,col=col.girsanov,xlab="t")
+\end{verbatim}
+}
+%\section*{Errata in Chapter 2}
+%\begin{itemize}
+%\item w
+%\end{itemize}
+
+\section*{Errata in Chapter 3}
+
+\begin{tabular}{lll}
+Where & Errata & Corrige\\
+\hline
+\\
+p:175, l:-7 &  $f(y,x)$ & $f(x,y)$\\
+p:176, l:10  & $f(y,x)$ & $f(x,y)$\\
+p:177, l:9  & $f(y,x)$ & $f(x,y)$\\
+\end{tabular}
+\par
+The following code for $\tt dcKessler$ had a missing square in term $\tt Ex$ in the definition of $\tt Vx$.
+\vspace{-0.5cm}
+{\scriptsize
+\begin{verbatim}
+dcKessler <- function (x, t, x0, t0, theta, d, dx, dxx, s, sx, sxx, log = FALSE){
+    Dt <- t - t0
+    mu <- d(t0, x0, theta)
+    mu1 <- dx(t0, x0, theta)
+    mu2 <- dxx(t0, x0, theta)
+    sg <- s(t0, x0, theta)
+    sg1 <- sx(t0, x0, theta)
+    sg2 <- sxx(t0, x0, theta)
+    Ex <- (x0 + mu * Dt + (mu * mu1 + 0.5 * (sg^2 * mu2)) * (Dt^2)/2)
+    Vx <- (x0^2 + (2 * mu * x0 + sg^2) * Dt + (2 * mu * (mu1 * 
+        x0 + mu + sg * sg1) + sg^2 * (mu2 * x0 + 2 * mu1 + sg1^2 + 
+        sg * sg2)) * (Dt^2)/2 - Ex^2)
+    Vx[Vx < 0] <- NA
+    dnorm(x, mean = Ex, sd = sqrt(Vx), log = log)
+}
+\end{verbatim}
+}
+
+\section*{Errata in Chapter 4}
+p:213-214, Listing 4.3. The $\tt cpoint$ function has been fixed as follows in 
+version 2.0.5 of the $\tt sde$ package. See below.
+\vspace{-0.5cm}
+{\scriptsize
+\begin{verbatim}
+function (x, mu, sigma) 
+{
+    DELTA <- deltat(x)
+    n <- length(x)
+    Z <- NULL
+    if (!missing(mu) && !missing(sigma)) {
+        Z <- (diff(x) - mu(x[1:(n - 1)]) * DELTA)/(sqrt(DELTA) * 
+            sigma(x[1:(n - 1)]))
+    }
+    else {
+        bw <- n^(-1/5) * sd(x)
+        y <- sapply(x[1:(n - 1)], function(xval) {
+            tmp <- dnorm(xval, x[1:(n - 1)], bw)
+            sum(tmp * diff(x))/(DELTA * sum(tmp))
+        })
+        Z <- diff(x)/sqrt(DELTA) - y * sqrt(DELTA)
+    }
+    lenZ <- length(Z)
+    Sn <- cumsum(Z^2)
+    S <- sum(Z^2)
+    D <- abs(1:lenZ/lenZ - Sn/S)
+    k0 <- which(D == max(D))[1]
+    return(list(k0 = k0 + 1, tau0 = time(x)[k0 + 1], theta1 = sqrt(Sn[k0]/k0), 
+        theta2 = sqrt((S - Sn[k0])/(lenZ - k0))))
+}
+\end{verbatim}
+}
+\section*{Updated references}
+\begin{itemize}
+\item[27.]  Beskos, A., Papaspiliopoulos, O., Roberts, G.O. (2006) Retrospective exact 
+simulation of diffusion sample paths with applications, {\it Bernoulli}, {\bf 12}(6), 1077--1098.
+\item[28.] Beskos, A., Papaspiliopoulos, O., Roberts, G.O. (2008) A Factorisation of Diffusion Measure and Finite Sample Path Constructions, {\it Meth. Compt. App. Prob.}, {\bf 10}(1), 85-104.
+\item[64.] De Gregorio, A., Iacus, S.M. (2008) Least squares volatility change point estimation for 
+partially observed diffusion processes, {\it Communications in Statistics, Theory and Methods},  {\bf 37}(15), 2342--2357. 
+\item[157.] Lepage, T., Law, S., Tupper, P., Bryant, D. (2006) Continuous and tractable models for the variation of evolutionary rates, {\it Math. Bioscences}, {\bf 199}(2), 216--233.
+
+\end{itemize}
+
+\section*{Acknowledgments}
+I'm thankful to Spencer Graves, Susanne Ditlevsen, Loretta Gasco for pointing out some of the above errata.
+
+
+\end{document}
+

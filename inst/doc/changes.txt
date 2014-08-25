@@ -1,3 +1,5 @@
+Changes from sde_2.0.8 to sde_2.0.11:
+	fixed package building issues
 Changes from sde_2.0.8 to sde_2.0.10:
 	fixed code for dcKessler
 	changed code in MOdist to use L1 distance

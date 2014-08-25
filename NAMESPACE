@@ -1,3 +1,4 @@
+useDynLib(sde)
 export(sde.sim)
 # Ornstein-Uhlenbeck
 export(rcOU)
@@ -55,6 +56,11 @@ export(cpoint)
 export(sdeAIC)
 export(MOdist)
 export(sdeDiv)
+# imports
+importFrom("MASS", mvrnorm)
+importFrom("fda", eval.basis, create.bspline.basis)
+importFrom("zoo", zoo, na.approx)
+importFrom("stats4", mle)
 
 
 
