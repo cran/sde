@@ -1,5 +1,5 @@
-e4eadac42b87a8da14844efffec9d856 *DESCRIPTION
-91029feccb0e61079254d464bde180f6 *NAMESPACE
+160e25a3edc4c7811ef1c1b40a04dbe7 *DESCRIPTION
+049391eb9cccbe859542fe993c7c4bf1 *NAMESPACE
 88b8dd87297cd966b340915a163a25a8 *R/BM.R
 d18554f5c8cf0c30a3b2409058b48a63 *R/DBridge.R
 4fafde948c2573015544e91dfc8a3363 *R/MOdist.R
@@ -27,7 +27,7 @@ eba4ba2d755cc305e0c599de1ae9031c *R/sdeDiv.R
 5f03b5874866f246185c85c82bc26491 *R/simple.ef.R
 46b34082453e40a5659e736561cf29b2 *R/simple.ef2.R
 928bb74b51698cae4e210916f7090215 *R/zzz.R
-017ec925b7636674e584c4e3309e0d5f *build/vignette.rds
+1a730685d6bcceca6cf693fd86189653 *build/vignette.rds
 e0ec95f2f6349e14900450d82e65fa1f *data/DWJ.rda
 75caff4a0d81ae10de042eb83862a58d *data/quotes.rda
 25968cb9b8b0f0b62ffa44c0937a034a *inst/book/ch1.R
@@ -92,7 +92,7 @@ f0e8e02e4e21f6b31953da123ad43889 *inst/book/ex4.05.R
 89c5aa67d598a182f3db3845c5adb2a1 *inst/book/ex4.07.R
 8a6a00bc92aac997a1ac9e24a1f3ac46 *inst/doc/changes.txt
 217b6d3ee517bc6fa28cc61003840998 *inst/doc/sde.errata.Rnw
-7f468992d88d40ff2cb0b23493de270e *inst/doc/sde.errata.pdf
+c32e0ec04301ef33ca37692eff3cb5d8 *inst/doc/sde.errata.pdf
 e0a52829e81a5c4f45067f90ef863c46 *man/BM.Rd
 40bc39d99662da38e3af90e94d307897 *man/DBridge.Rd
 2d42a6c0e5776d0ee8685bcd50d74010 *man/DWJ.Rd

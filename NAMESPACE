@@ -61,7 +61,12 @@ importFrom("MASS", mvrnorm)
 importFrom("fda", eval.basis, create.bspline.basis)
 importFrom("zoo", zoo, na.approx)
 importFrom("stats4", mle)
-
+ importFrom("stats", "D", "as.dist", "deltat", "density", "deriv",
+     "dgamma", "dlnorm", "dnorm", "end", "frequency",
+     "integrate", "is.ts", "na.omit", "optim", "optimize",
+     "pchisq", "pgamma", "plnorm", "pnorm", "qchisq", "qgamma",
+     "qlnorm", "qnorm", "rchisq", "rgamma", "rlnorm", "rnorm",
+     "rpois", "runif", "sd", "start", "time", "ts")
 
 
 
