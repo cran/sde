@@ -4,14 +4,14 @@ function(X0, t0, Dt, N, d1, d1.x, k1, k2, phi, max.psi, rh, A){
    psi <- function(x) 0.5*d1(1,x)^2 + 0.5*d1.x(1,x)
 
    if(missing(k1)){
-    cat("k1 missing, trying numerical minimization...") 
+    message("k1 missing, trying numerical minimization...")
     k1 <- optimize(psi, c(0, max.psi))$obj
-    cat(sprintf("(k1=%5.3f)\n",k1))
+    message(sprintf("(k1=%5.3f)\n",k1))
    }
    if(missing(k2)){
-    cat("k2 missing, trying numerical maximization...") 
+    message("k2 missing, trying numerical maximization...")
     k2 <- optimize(psi, c(0, max.psi),maximum=TRUE)$obj
-    cat(sprintf("(k2=%5.3f)\n",k2))
+    message(sprintf("(k2=%5.3f)\n",k2))
   }
    
   if(missing(phi))

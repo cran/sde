@@ -15,7 +15,7 @@ DBridge <- function(x=0, y=0, t0=0, T=1, delta, drift, sigma, ...){
    }
 
   if(id==0 || id==length(Y1) || id == Inf) {
-    cat("\nno crossing, trying again...")
+    message("\nno crossing, trying again...")
 	done <- FALSE
   } else {
    done <- TRUE

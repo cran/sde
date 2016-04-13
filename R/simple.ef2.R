@@ -27,7 +27,7 @@ simple.ef2 <- function(X, drift, sigma, h, h.x, h.xx,
  
  self.hx <- FALSE
  if(missing(h.x)){
-  cat("h.x not provided, attempting symbolic derivation.\n")
+  message("h.x not provided, attempting symbolic derivation.\n")
   h.x <- vector(n.h, mode="list")
   for(i in 1:n.h)
    h.x[[i]] <- deriv(h[[i]],"x")
@@ -37,7 +37,7 @@ simple.ef2 <- function(X, drift, sigma, h, h.x, h.xx,
 
  self.hxx <- FALSE
  if(missing(h.xx)){
-  cat("h.xx not provided, attempting symbolic derivation.\n")
+  message("h.xx not provided, attempting symbolic derivation.\n")
   h.xx <- vector(n.h, mode="list")
   for(i in 1:n.h)
    h.xx[[i]] <- deriv(h[[i]],"x",hessian=TRUE)

@@ -54,23 +54,23 @@ sde.sim <- function (t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
 		needs.dt <- TRUE
 	}
     if (needs.sx && missing(sigma.x)) {
-        cat("sigma.x not provided, attempting symbolic derivation.\n")
+        message("sigma.x not provided, attempting symbolic derivation.\n")
         sigma.x <- D(sigma, "x")
     }
     if (needs.dx && missing(drift.x)) {
-        cat("drift.x not provided, attempting symbolic derivation.\n")
+        message("drift.x not provided, attempting symbolic derivation.\n")
         drift.x <- D(drift, "x")
     }
     if (needs.dxx && missing(drift.xx)) {
-        cat("drift.xx not provided, attempting symbolic derivation.\n")
+        message("drift.xx not provided, attempting symbolic derivation.\n")
         drift.xx <- D(D(drift, "x"), "x")
     }
     if (needs.sxx && missing(sigma.xx)) {
-        cat("sigma.xx not provided, attempting symbolic derivation.\n")
+        message("sigma.xx not provided, attempting symbolic derivation.\n")
         sigma.xx <- D(D(sigma, "x"), "x")
     }
     if (needs.dt && missing(drift.t)) {
-        cat("drift.t not provided, attempting symbolic derivation.\n")
+        message("drift.t not provided, attempting symbolic derivation.\n")
         drift.t <- D(drift, "t")
     }
     d1 <- function(t, x) eval(drift)
@@ -89,7 +89,7 @@ sde.sim <- function (t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
     else {
         t <- c(t0, t0 + cumsum(rep(delta, N)))
         T <- t[N + 1]
-        cat(sprintf("\nT set to = %f\n", T))
+        message(sprintf("\nT set to = %f\n", T))
     }
     Dt <- (T - t0)/N
 

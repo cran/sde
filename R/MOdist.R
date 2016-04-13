@@ -8,7 +8,7 @@ MOdist <- function(x, M=50, rangeval=range(x, na.rm=TRUE, finite = TRUE)){
   return(NA)
  
  if(any(is.na(x))){
-  cat("Interpolating missing data\n")
+  message("Interpolating missing data\n")
   x <- zoo(x)
   x <- na.approx(x)
  }

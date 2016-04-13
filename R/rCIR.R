@@ -14,7 +14,7 @@ expBes <- function(x,nu){
 
 checkCIR <- function(theta,x0){
     if(2*theta[1]<=theta[3]^2)
-    cat("\nthe process is not stationary\n")
+    message("\nthe process is not stationary\n")
    if(any(theta<0))
     stop("parameters must be positive")
    if(any(x0<0))
