@@ -1,7 +1,7 @@
 BBridge <- function(x=0, y=0, t0=0, T=1, N=100){
   if(T<= t0) stop("wrong times")
   dt <- (T-t0)/N
-  t <- seq(t0, T, length=N+1)
+  t <- seq(t0, T, length.out=N+1)
   X <- c(0,cumsum( rnorm(N)*sqrt(dt)))
   BB <- x + X - (t-t0)/(T-t0)*(X[N+1]-y+x)
   X <- ts(BB, start=t0,deltat=dt)
@@ -11,7 +11,7 @@ BBridge <- function(x=0, y=0, t0=0, T=1, N=100){
 BM <- function(x=0, t0=0, T=1, N=100){
   if(T<= t0) stop("wrong times")
   dt <- (T-t0)/N
-  t <- seq(t0,T, length=N+1)
+  t <- seq(t0,T, length.out=N+1)
   X <- ts(cumsum(c(x,rnorm(N)*sqrt(dt))),start=t0, deltat=dt)
   return(invisible(X))
 }
