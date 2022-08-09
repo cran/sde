@@ -12,7 +12,7 @@ distance for discretely observed diffusion processes.
 }
 \usage{data(quotes)}
 \references{
-De Gregorio, A. Iacus, S.M. (2008) Clustering of discretely observed diffusion processes, \url{http://arxiv.org/abs/0809.3902}
+De Gregorio, A. Iacus, S.M. (2008) Clustering of discretely observed diffusion processes, Computational Statistics and Data Analysis, 54(12), 598-606, \doi{10.1016/j.csda.2009.10.005}.
 }
 \examples{
 data(quotes)

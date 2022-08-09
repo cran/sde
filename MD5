@@ -1,5 +1,6 @@
-3def5a243b2cce9bb69ddf7b10d1f601 *DESCRIPTION
-049391eb9cccbe859542fe993c7c4bf1 *NAMESPACE
+14ad71bdd524936e6b21b4e7846e1b1e *DESCRIPTION
+56e16e30aa6b1b663095c3bc968720ba *NAMESPACE
+5840f46f66c5cbc354d5022569f966af *NEWS
 88b8dd87297cd966b340915a163a25a8 *R/BM.R
 88d78dca7e90553fdc77f11a83d8019f *R/DBridge.R
 a7850fb2f55429fddcc3d15764fc5b89 *R/MOdist.R
@@ -27,7 +28,8 @@ eba4ba2d755cc305e0c599de1ae9031c *R/sdeDiv.R
 5f03b5874866f246185c85c82bc26491 *R/simple.ef.R
 66600f8d969e8dad1a0d154ef2bac859 *R/simple.ef2.R
 928bb74b51698cae4e210916f7090215 *R/zzz.R
-66e1f9f21067b3c1028a6ff95653dab7 *build/vignette.rds
+0c6ad5b3446721162c89589e8077ab1c *build/partial.rdb
+2a155b415726d9ad9cbd5004a6b7a009 *build/vignette.rds
 e0ec95f2f6349e14900450d82e65fa1f *data/DWJ.rda
 75caff4a0d81ae10de042eb83862a58d *data/quotes.rda
 25968cb9b8b0f0b62ffa44c0937a034a *inst/book/ch1.R
@@ -92,13 +94,13 @@ f0e8e02e4e21f6b31953da123ad43889 *inst/book/ex4.05.R
 89c5aa67d598a182f3db3845c5adb2a1 *inst/book/ex4.07.R
 8a6a00bc92aac997a1ac9e24a1f3ac46 *inst/doc/changes.txt
 217b6d3ee517bc6fa28cc61003840998 *inst/doc/sde.errata.Rnw
-6b0f224b6a230b388605acbaeca97d89 *inst/doc/sde.errata.pdf
+0fc00a334bb79d0bf9204ad921ce8f48 *inst/doc/sde.errata.pdf
 e0a52829e81a5c4f45067f90ef863c46 *man/BM.Rd
 40bc39d99662da38e3af90e94d307897 *man/DBridge.Rd
 2d42a6c0e5776d0ee8685bcd50d74010 *man/DWJ.Rd
 0a6ff2e6b1f336ebfd2b83e1b2258654 *man/EULERloglik.Rd
 cbfab8ffc2367b2f3edb2ea52502120f *man/HPloglik.Rd
-4fd6872b3fea5c36eb71f3039d1f8ec6 *man/MOdist.Rd
+bf3ccbd61a2c88736cf7296a65aae513 *man/MOdist.Rd
 93b1e39176038367dce909430886a680 *man/SIMloglik.Rd
 c74b8334eb26f2a7dcb2cff4b3a77e77 *man/cpoint.Rd
 78241a0d75321373c9444768fa5e66c5 *man/dcElerian.Rd
@@ -110,7 +112,7 @@ afbd9df7d22825b6a28733e26b75fb43 *man/dcOzaki.Rd
 d0ca6c74c7fbc480d810ac4cdadb598c *man/gmm.Rd
 67d90629ce97ea74124b34df682cc64f *man/ksmooth.Rd
 9fd0637dc567ac70d19c895dabe0e9d1 *man/linear.mart.ef.Rd
-4a1de35f799740033efd99353112402a *man/quotes.Rd
+8b1b4ba06da0b2560286100b34be50ed *man/quotes.Rd
 58b5ba35e9291e21c9e342ce76ffba83 *man/rcBS.Rd
 334effa939aa24f68b6ad8a6dab1b9c6 *man/rcCIR.Rd
 363a21ffe6213e231e080c14b64f5718 *man/rcOU.Rd
@@ -118,8 +120,8 @@ b9da8f63629dac8c5ff544478f09d1b0 *man/rsCIR.Rd
 2f9db14423891c04c7b860b1d5a6f2e7 *man/rsOU.Rd
 b1eea2b79bb4425b45f62687e22f4699 *man/sde.sim.Rd
 baff22ea328f5a330b4a3975d0021695 *man/sdeAIC.Rd
-cdad02f56168d4570f200017df4a006c *man/sdeDiv.Rd
+56c58e8f0af41384425a27835db01297 *man/sdeDiv.Rd
 0c955221688e879cef61d7fa674f9b2d *man/simple.ef.Rd
 3df418e7bbc9718105914cb8ae8c5a48 *man/simple.ef2.Rd
-41de050e499c7976942f536cdd545aff *src/sde.sim.c
+6cef027c561e8371b2a39927011a8604 *src/sde.sim.c
 217b6d3ee517bc6fa28cc61003840998 *vignettes/sde.errata.Rnw

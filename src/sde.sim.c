@@ -351,7 +351,8 @@ SEXP sde_sim_KPS(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
 					  SEXP Z, SEXP U, SEXP rho)
 {
   double T, DELTA, z, u, *rX, *rx0, *rZ, *rU;
-  double sdt, tmp;
+  //  double sdt, tmp;
+  double  tmp;
   double D, Dx, Dxx, S, Sx, Sxx;
   int i, n, j, m;
   SEXP X;
@@ -399,7 +400,7 @@ SEXP sde_sim_KPS(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   for(j=0; j<m; j++)
    rX[j*(n+1)] = rx0[j]; 
 
-  sdt = sqrt(DELTA);
+  //sdt = sqrt(DELTA);
 
   for(i=1; i< n+1; i++){
     T = T + DELTA;    
@@ -431,7 +432,8 @@ SEXP sde_sim_KPS(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
 SEXP sde_sim_cdist(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
                       SEXP cdist, SEXP rho)
 {
-  double T, DELTA, *rX, *rx0;
+  //  double T, DELTA, *rX, *rx0;
+  double  DELTA, *rX, *rx0;
   int i, n, j, m;
   SEXP X;
   
@@ -448,7 +450,7 @@ SEXP sde_sim_cdist(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(t0 = AS_NUMERIC(t0));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *REAL(t0);
+  //T = *REAL(t0);
   n = *INTEGER(N);
   m = *INTEGER(M);
 
@@ -478,7 +480,8 @@ SEXP sde_sim_cdist(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
 SEXP sde_sim_ozaki(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
                       SEXP d, SEXP dx, SEXP s, SEXP rho)
 {
-  double T, DELTA, *rX, *rx0;
+//    double T, DELTA, *rX, *rx0;
+  double DELTA, *rX, *rx0;
   double tmp, D, Dx, S, Ex, Vx, Kx;
   int i, n, j, m;
   SEXP X;
@@ -499,7 +502,7 @@ SEXP sde_sim_ozaki(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(s = AS_NUMERIC(s));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *REAL(t0);
+ // T = *REAL(t0);
   S = *REAL(s);
   n = *INTEGER(N);
   m = *INTEGER(M);
@@ -536,7 +539,8 @@ SEXP sde_sim_ozaki(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
 SEXP sde_sim_shoji(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
                       SEXP d, SEXP dx, SEXP dxx, SEXP dt, SEXP s, SEXP rho)
 {
-  double T, DELTA, *rX, *rx0;
+  //double T, DELTA, *rX, *rx0;
+  double DELTA, *rX, *rx0;
   double tmp, D, Dx, Dxx, Dt, S, Ex, Vx, Mx;
   int i, n, j, m;
   SEXP X;
@@ -559,7 +563,7 @@ SEXP sde_sim_shoji(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
   PROTECT(s = AS_NUMERIC(s));
   PROTECT(N = AS_INTEGER(N));
   
-  T = *REAL(t0);
+ // T = *REAL(t0);
   S = *REAL(s);
   n = *INTEGER(N);
   m = *INTEGER(M);
@@ -938,6 +942,7 @@ void
 R_init_ifs(DllInfo *info)
 {
     R_registerRoutines(info, R_CDef, NULL, NULL, NULL);
+    R_useDynamicSymbols(info, TRUE);
 }
 
 

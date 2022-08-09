@@ -64,7 +64,7 @@ Dacunha-Castelle, D., Florens-Zmirou, D. (1986) Estimation of the coefficients
 of a diffusion from discrete observations,  \emph{Stochastics}, 19, 263-284.
 
 De Gregorio, A., Iacus, S.M. (2008) Divergences Test Statistics for 
-Discretely Observed Diffusion Processes. Available at \url{http://arxiv.org/abs/0808.0853}
+Discretely Observed Diffusion Processes, Journal of Statistical Planning and Inference, 140(7), 1744-1753, \doi{10.1016/j.jspi.2009.12.029}.
 }
 \value{
   \item{x}{a list containing the value of the divergence, its pvalue, the likelihood ratio test
