@@ -334,7 +334,7 @@ SEXP sde_sim_milstein2(SEXP x0, SEXP t0, SEXP delta, SEXP N, SEXP M,
     Sx = feval(T,tmp,sx,rho);
     Sxx = feval(T,tmp,sxx,rho);
     rX[i + j*(n+1)] = tmp + D*DELTA + S*Z + 0.5*S*Sx*(Z*Z-DELTA)+
-			 pow(DELTA,1.5)*(0.5*D*Sx + 0.5*Dx*S + 0.25*S*Sxx)*Z +
+			 DELTA*(0.5*D*Sx + 0.5*Dx*S + 0.25*S*S*Sxx)*Z +
 			 DELTA*DELTA*(0.5*D*Dx+ 0.25*Dxx*S*S);
 	}
   }   
