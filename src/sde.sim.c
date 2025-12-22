@@ -961,29 +961,23 @@ R_init_ifs(DllInfo *info)
    the value of f(t,x)   
 */
 
-
 double feval(double t, double x, SEXP f, SEXP rho)
 {
-    double val= 0.0;
-    SEXP R_fcall, tpar, xpar; 
-	
-	PROTECT(tpar = allocVector(REALSXP, 1));
-	PROTECT(xpar = allocVector(REALSXP, 1));
-    REAL(tpar)[0] = t;
-    REAL(xpar)[0] = x;
-   
-	PROTECT(R_fcall = allocList(3));
-	SETCAR(R_fcall, f);
-	SET_TYPEOF(R_fcall, LANGSXP);
+    SEXP tpar, xpar, call, ans;
+    double val;
 
-	SETCADR(R_fcall, tpar);
-	SETCADDR(R_fcall, xpar);
-    val = *REAL(eval(R_fcall, rho));
-    UNPROTECT(3);
-		
-    return(val);
+    PROTECT(tpar = Rf_ScalarReal(t));          // length-1 REALSXP
+    PROTECT(xpar = Rf_ScalarReal(x));
 
+    PROTECT(call = Rf_lang3(f, tpar, xpar));   // creates a LANGSXP call: f(tpar, xpar)
+
+    PROTECT(ans = Rf_eval(call, rho));
+    val = Rf_asReal(ans);                      // works also if ans is integer etc.
+
+    UNPROTECT(4);
+    return val;
 }
+
 
 /* ftheta: this is intended to calculate   f(t, x,theta) where
    't' and 'x' are C doubles and 'theta' is a SEXP coming from the
@@ -992,25 +986,19 @@ double feval(double t, double x, SEXP f, SEXP rho)
 
 double ftheta(double t, double x, SEXP theta, SEXP f, SEXP rho)
 {
-    double val= 0.0;
-    SEXP R_fcall, tpar, xpar; 
-	
-	PROTECT(theta);
-	PROTECT(tpar = allocVector(REALSXP, 1));
-	PROTECT(xpar = allocVector(REALSXP, 1));
-    REAL(tpar)[0] = t;
-    REAL(xpar)[0] = x;
-   
-	PROTECT(R_fcall = allocList(4));
-	SETCAR(R_fcall, f);
-	SET_TYPEOF(R_fcall, LANGSXP);
+    SEXP tpar, xpar, call, ans;
+    double val;
 
-	SETCADR(R_fcall, tpar);
-	SETCADDR(R_fcall, xpar);
-	SETCADDDR(R_fcall, theta);
-    val = *REAL(eval(R_fcall, rho));
+    PROTECT(tpar = Rf_ScalarReal(t));
+    PROTECT(xpar = Rf_ScalarReal(x));
+
+    /* Build call: f(tpar, xpar, theta) */
+    PROTECT(call = Rf_lang4(f, tpar, xpar, theta));
+
+    PROTECT(ans = Rf_eval(call, rho));
+    val = Rf_asReal(ans);
+
     UNPROTECT(4);
-		
-    return(val);
+    return val;
 }
 
