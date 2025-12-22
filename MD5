@@ -1,4 +1,4 @@
-1a5e7bbf91ad280be65a0f28569aca62 *DESCRIPTION
+91a5e7e6a7943c3c8410fa32ef5e2fdb *DESCRIPTION
 56e16e30aa6b1b663095c3bc968720ba *NAMESPACE
 5840f46f66c5cbc354d5022569f966af *NEWS
 88b8dd87297cd966b340915a163a25a8 *R/BM.R
@@ -94,7 +94,7 @@ f0e8e02e4e21f6b31953da123ad43889 *inst/book/ex4.05.R
 89c5aa67d598a182f3db3845c5adb2a1 *inst/book/ex4.07.R
 8a6a00bc92aac997a1ac9e24a1f3ac46 *inst/doc/changes.txt
 217b6d3ee517bc6fa28cc61003840998 *inst/doc/sde.errata.Rnw
-61431c47dc98093cb93c55b257f67d6b *inst/doc/sde.errata.pdf
+4c5449113fec604d9746f1cab79b399f *inst/doc/sde.errata.pdf
 e0a52829e81a5c4f45067f90ef863c46 *man/BM.Rd
 40bc39d99662da38e3af90e94d307897 *man/DBridge.Rd
 2d42a6c0e5776d0ee8685bcd50d74010 *man/DWJ.Rd
