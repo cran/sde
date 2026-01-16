@@ -1,6 +1,6 @@
 ksdrift <- function(x,bw,n=512){
  len <- length(x)
- xval <- seq(min(x), max(x), length=n)
+ xval <- seq(min(x), max(x), length.out=n)
  if(missing(bw))
   bw <- len^(-1/5)*sd(x)
   y <- sapply(xval, function(xval) { 
@@ -11,7 +11,7 @@ ksdrift <- function(x,bw,n=512){
  
 ksdiff <- function(x,bw,n=512){
  len <- length(x)
- xval <- seq(min(x), max(x), length=n)
+ xval <- seq(min(x), max(x), length.out=n)
  if(missing(bw))
   bw <- len^(-1/5)*sd(x)
   y <- sapply(xval, function(xval) { 

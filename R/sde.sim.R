@@ -84,7 +84,7 @@ sde.sim <- function (t0 = 0, T = 1, X0 = 1, N = 100, delta, drift, sigma,
     if (t0 < 0 || T < 0) 
         stop("please use positive times!")
     if (missing(delta)) {
-        t <- seq(t0, T, length = N + 1)
+        t <- seq(t0, T, length.out = N + 1)
     }
     else {
         t <- c(t0, t0 + cumsum(rep(delta, N)))
